@@ -1,5 +1,6 @@
-// Author: Kunal Singla(A00461346) 
-// Purpose: This file represents the gallery component.
+// Authors: Kunal Singla(A00461346)
+//          Sam Oystreck (A00478278)
+// Purpose: This file holds the workings for a gallery
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
