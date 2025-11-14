@@ -36,7 +36,7 @@ function App() {
           <Route path="/about" element={<About />} /> {/* Route for About component */}
           <Route path="/sitemap" element={<SiteMap />} /> {/* Route for SiteMap component */}
           <Route path="/contact" element={<Contact />} /> {/* Route for Contact component */}
-          <Route path="/gallery" element={<gallery />}/>
+          <Route path="/gallery" element={<Gallery />}/>
           <Route path="/flora" element={<Flora />}/>
           <Route path="/NaturalBurial" element={<NaturalBurial />}/>
           <Route path="/Admin" element={<Admin />}/>
