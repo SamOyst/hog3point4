@@ -11,6 +11,7 @@ import Contact from './components/Contact'; // Importing Contact component
 import Gallery from './components/gallery';
 import Flora from './components/flora';
 import NaturalBurial from './components/NaturalBurial';
+import Admin from './components/Admin';
 
 // App component definition
 function App() {
@@ -38,6 +39,7 @@ function App() {
           <Route path="/gallery" element={<Gallery />}/>
           <Route path="/flora" element={<Flora />}/>
           <Route path="/NaturalBurial" element={<NaturalBurial />}/>
+          <Route path="/Admin" element={<Admin />}/>
         </Routes>
       </div>
     </Router>
