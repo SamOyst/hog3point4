@@ -4,12 +4,14 @@ const cors = require('cors');
 const path = require("path");
 const fs = require('fs');
 
-
 server.use(cors({ origin: ["http://localhost:4000"] }));
+
 
 //Serves static images to be accessed by the fronted
 const directory = path.resolve();
-server.use("/api/gallery", express.static(path.join(directory, "gallery_uploads/accepted")));
+//Makes images in gallery_uploads/accepted accessable from https://pathname/gallery/imagename
+server.use("/api/accepted", express.static(path.join(directory, "gallery_uploads/accepted")));
+server.use("/api/pending", express.static(path.join(directory, "gallery_uploads/pending")));
 
 //Need to get the urls of every image being served and return it to frontend to be used
 server.get("/api/acceptedImages", (req, res) => {
@@ -19,6 +21,16 @@ server.get("/api/acceptedImages", (req, res) => {
             console.log("Failed to read images");
         }
 
+        res.json(fileNames);
+    });
+});
+
+server.get("/api/pendingImages", (req, res) => {
+    fs.readdir(path.join(directory, "gallery_uploads/pending"), (err, fileNames) => {
+        if (err) {
+            console.log("Failed to read images");
+            return res.json([]);
+        }
         res.json(fileNames);
     });
 });
