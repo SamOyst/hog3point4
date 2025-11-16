@@ -4,7 +4,6 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import path from "path";
 
 const Gallery = () => {
   //Creates two empty arrays which will be filled with approved images
@@ -14,8 +13,8 @@ const Gallery = () => {
   useEffect(() => {
     async function getImages() {
       //Get the response.data from our axios request
-      const {data} = await axios.get("http://ugdev.cs-smu.ca:3000/api/acceptedImages")
-      setImageArray(data);
+      const accepted = await axios.get("http://ugdev.cs-smu.ca:3000/api/acceptedImages")
+      setImageArray(accepted.data);
     }
 
     getImages();
@@ -44,7 +43,7 @@ const Gallery = () => {
           >
             {/* Image */}
             <img
-              src={`http://ugdev.cs-smu.ca:3000/api/gallery/${filename}`}
+              src={`http://ugdev.cs-smu.ca:3000/api/accepted/${filename}`}
               alt={filename}
               className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
             />
