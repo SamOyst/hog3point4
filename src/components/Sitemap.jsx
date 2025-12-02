@@ -69,8 +69,6 @@ function SiteMap() {
   const [mapZoom, setMapZoom] = useState(14);
   const [userLocation, setUserLocation] = useState(null);
   const [hasLocation, setHasLocation] = useState(false);
-
-  // NEW: which POI is currently selected (for info text)
   const [selectedPoi, setSelectedPoi] = useState(null);
 
   const handleUseMyLocation = () => {
@@ -97,6 +95,19 @@ function SiteMap() {
     );
   };
 
+  const handleGetDirections = () => {
+    if (!selectedPoi || !selectedPoi.googlePosition) return;
+
+    const { lat, lng } = selectedPoi.googlePosition;
+    let url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+
+    if (userLocation) {
+      url += `&origin=${userLocation.lat},${userLocation.lng}`;
+    }
+
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   // Render POI markers with click handler
   const PoiMarkers = ({ pois, onPoiClick }) => (
     <>
@@ -105,7 +116,7 @@ function SiteMap() {
           key={poi.id}
           position={poi.googlePosition}
           title={poi.name}
-          onClick={() => onPoiClick(poi)} // <- click selects this POI
+          onClick={() => onPoiClick(poi)}
         >
           <img
             src={poi.icon}
@@ -213,7 +224,21 @@ function SiteMap() {
                 ✕
               </button>
             </div>
-            <div>{selectedPoi.clickText}</div>
+            <div style={{ marginBottom: 8 }}>{selectedPoi.clickText}</div>
+            <button
+              onClick={handleGetDirections}
+              style={{
+                padding: "6px 10px",
+                borderRadius: 6,
+                border: "none",
+                cursor: "pointer",
+                background: "#4CAF50",
+                color: "white",
+                fontSize: 14,
+              }}
+            >
+              Get directions
+            </button>
           </div>
         )}
 
