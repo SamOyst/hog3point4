@@ -1,4 +1,4 @@
-//Author: Marko Ostrovitsa(A00448932)
+//Author: Marko Ostrovitsa(A00448932), Sam Oystreck (A00478278)
 //Purpose of the file is to diplay all the components together in the website
 
 import React, { useState } from 'react';

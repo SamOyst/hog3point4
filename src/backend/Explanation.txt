@@ -8,7 +8,7 @@ Running a backend through node.js with some help from express (a tool for node.j
     - Axios will let us make requests
 
 To run:
-    - install npm?
+    - install npm
     - npm install express
     - NPM run dev - runs the vite app as developper
     - cd src/backend - moves to the backend folder
