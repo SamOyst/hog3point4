@@ -1,47 +1,8 @@
-//Authors: Kunal Singla(A00461346), Cole Turner (A00469026)/Author: Bahnu Prakash (A00468530)
+//Authors: Kunal Singla(A00461346), Cole Turner (A00469026), Bahnu Prakash (A00468530), DAaniel Johnston (A00450815)
 //Purpose: This file represents a componet to display a flora fauna fungi page.
 
-import React, { useState } from 'react';
-import redMaple from '../assets/download-4.jpg';
-import mole from '../assets/download-5.jpg';
-import mushroom from '../assets/download-6.jpg';
-import birchImage from '../assets/download-7.jpg';
-import chipmunk from '../assets/download-8.jpg';
-
-// Sample data for Flora, Fauna, and Fungi
-// Authors: Kunal Singla, Cole Turner
-const data = [
-  {
-    name: 'Red Maple', // Name of the item
-    category: 'Flora', // Category to classify the item (Flora, Fauna, Fungi)
-    description: 'A majestic tree known for its vibrant red leaves.', // Description of the item
-    image: redMaple, // Path to the image representing the item
-  },
-  {
-    name: 'Star-nosed Mole',
-    category: 'Fauna',
-    description: 'An extraordinary mammal known for its unique star-shaped nose.',
-    image: mole,
-  },
-  {
-    name: 'Golden Oyster Mushroom',
-    category: 'Fungi',
-    description: 'A bright yellow mushroom often found on decaying wood.',
-    image: mushroom,
-  },
-  {
-    name: 'Birch Tree',
-    category: 'Flora',
-    description: 'A tree with striking white bark and vibrant leaves.',
-    image: birchImage,
-  },
-  {
-    name: 'Eastern Chipmunk',
-    category: 'Fauna',
-    description: 'A small mammal with stripes and an energetic personality.',
-    image: chipmunk,
-  },
-];
+import React, { useState, useEffect, useRef } from 'react';
+import data from './floraData';
 
 const FloraFaunaFungi = () => {
   const [selectedItem, setSelectedItem] = useState(null); 
@@ -50,45 +11,86 @@ const FloraFaunaFungi = () => {
   const [filter, setFilter] = useState('All'); 
   // State to manage the current filter category (e.g., Flora, Fauna, Fungi). Defaults to 'All'.
 
+  const [searchTerm, setSearchTerm] = useState('');
+  // State to manage the search term input.
+
+  const [activeSearch, setActiveSearch] = useState('');
+  // State to manage the active search filter applied only when button is pressed.
+
   // Function to close the modal by resetting the selected item to null
   const closeModal = () => setSelectedItem(null);
 
-  // Function to filter the data based on the current filter
-  const filteredData = filter === 'All' ? data : data.filter((item) => item.category === filter);
+  // Function to handle the search button click
+  const handleSearchClick = () => {
+    setActiveSearch(searchTerm);
+  };
+
+  // Function to filter the data based on the current filter and active search term
+  const filteredData = (filter === 'All' ? data : data.filter((item) => item.category === filter))
+    .filter((item) => 
+      item.name.toLowerCase().includes(activeSearch.toLowerCase()) ||
+      item.category.toLowerCase().includes(activeSearch.toLowerCase())
+    );
+
+  // Visible items (6 at a time)
+  const BATCH_SIZE = 6;
+  const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
+  const sentinelRef = useRef(null);
+
+  // When filter or search changes, reset visible count so user sees first batch again
+  useEffect(() => {
+    setVisibleCount(BATCH_SIZE);
+    // scroll to top of list when new filter/search is applied
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [filter, activeSearch]);
+
+  // IntersectionObserver to load more items when sentinel becomes visible
+  useEffect(() => {
+    if (!sentinelRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, filteredData.length));
+          }
+        });
+      },
+      { root: null, rootMargin: '200px', threshold: 0.1 }
+    );
+
+    observer.observe(sentinelRef.current);
+    return () => observer.disconnect();
+  }, [filteredData.length]);
+
+  const visibleData = filteredData.slice(0, visibleCount);
 
   return (
     <div className="p-8 bg-gray-100 dark:bg-gray-900 min-h-screen">
       {/* Main container with padding, background color, and full screen height */}
       <h1 className="text-4xl font-bold text-center mb-10 text-gray-900 dark:text-gray-100">
-        Explore Flora, Fauna, and Fungi
+        Explore the Woodland's Flora, Fauna, and Fungi
         {/* Page title with responsive styling for light and dark modes */}
       </h1>
 
-      {/* Categories Filter */}
-      <div className="flex justify-center space-x-4 mb-8">
-        {['All', 'Flora', 'Fauna', 'Fungi'].map((category) => (
-          <button
-            key={category} 
-            // Unique key for each button to ensure React can track them properly
-            className={`px-4 py-2 rounded-lg font-bold ${
-              filter === category
-                ? 'bg-blue-600 text-white' 
-                // Highlight the active filter button
-                : 'bg-gray-300 text-gray-800 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300'
-                // Default styles for inactive buttons with hover effects
-            }`}
-            onClick={() => setFilter(category)} 
-            // Update the filter state when a button is clicked
-          >
-            {category}
-            {/* Display the category name */}
-          </button>
-        ))}
+      {/* Search Bar */}
+      <div className="max-w-md mx-auto mb-8 flex gap-2">
+        <input
+          type="text"
+          placeholder="Search by name or description..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleSearchClick()}
+          className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          onClick={handleSearchClick}
+          className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors duration-200"
+        >
+          Search
+        </button>
       </div>
-
-      {/* Interactive Grid for displaying items */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredData.map((item, index) => (
+        {visibleData.map((item, index) => (
           <div
             key={index} 
             // Unique key for each grid item
@@ -114,6 +116,11 @@ const FloraFaunaFungi = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* sentinel used for infinite scroll; user scrolling will reveal more items */}
+      <div ref={sentinelRef} className="w-full flex justify-center items-center mt-8">
+        {visibleCount < filteredData.length}
       </div>
 
       {/* Modal for displaying the selected item's details */}

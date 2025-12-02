@@ -1,7 +1,8 @@
-// Author: Lakshay Bansal (A00467478)
+// Author: Lakshay Bansal (A00467478), Daniel Johnston (A00450815)
 // Prupose: This file represents an about component.  
 
 import React, { useRef, useState, useEffect } from "react";
+import data from './floraData';
 import outlookImage from "../assets/outlook.jpg"; 
 import { IoVolumeHigh, IoVolumeOff } from "react-icons/io5";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
@@ -11,8 +12,11 @@ const About = () => {
   const [accordionState, setAccordionState] = useState({
     floraFauna: false,
     heritageLegacy: false,
+    mission: false,
+    vision: false,
   });
   const [showMoreMission, setShowMoreMission] = useState(false);
+  const floraContentRef = useRef(null);
   const [voices, setVoices] = useState([]);
   const speechSynthesisRef = useRef(null);
   const textRef = useRef("");
@@ -71,6 +75,31 @@ const About = () => {
     }));
   };
 
+  // Build species name lists from floraData
+  const floraNames = Array.from(
+    new Set(
+      data
+        .filter((i) => i.category && i.category.toLowerCase().includes('flora'))
+        .map((i) => i.name)
+    )
+  ).sort();
+
+  const faunaNames = Array.from(
+    new Set(
+      data
+        .filter((i) => i.category && i.category.toLowerCase().includes('fauna'))
+        .map((i) => i.name)
+    )
+  ).sort();
+
+  const fungiNames = Array.from(
+    new Set(
+      data
+        .filter((i) => i.category && (i.category.toLowerCase().includes('fungi') || i.category.toLowerCase().includes('lichen')))
+        .map((i) => i.name)
+    )
+  ).sort();
+
   return (
     <div className="p-8 bg-white dark:bg-darkerBlue text-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center">
       {/* Header Section */}
@@ -90,7 +119,7 @@ const About = () => {
         </button>
       </div>
 
-      {/* Hero Image */}
+      {/* Image */}
       <div className="mb-10">
         <img
           src={outlookImage}
@@ -99,14 +128,14 @@ const About = () => {
         />
       </div>
 
-      {/* Accordion Section */}
-      <div className="w-full max-w-4xl mb-12">
+      {/* Species Section */}
+      <div className="w-full max-w-4xl mb-0">
         <div className="mb-4">
           <button
             className="flex justify-between w-full p-4 bg-gray-100 dark:bg-gray-800 text-2xl font-semibold rounded-lg shadow-md focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700"
             onClick={() => toggleAccordion("floraFauna")}
           >
-            <span>Flora and Fauna</span>
+            <span>Species</span>
             {accordionState.floraFauna ? (
               <AiOutlineMinus className="text-3xl" />
             ) : (
@@ -114,28 +143,59 @@ const About = () => {
             )}
           </button>
           <div
-            className={`overflow-hidden transition-[max-height] duration-500 ease-in-out ${
-              accordionState.floraFauna ? "max-h-screen" : "max-h-0"
-            }`}
+            ref={floraContentRef}
+            className={`overflow-hidden transition-[max-height] duration-500 ease-in-out`}
+            style={{ maxHeight: accordionState.floraFauna ? undefined : '0px' }}
           >
             <div className="p-4 text-2xl bg-gray-50 dark:bg-gray-900 rounded-b-lg shadow-md">
-              <ul className="list-disc list-inside">
-                <li>
-                  Flora: Red Maple, Wild Carrot, Coltsfoot, Sheep Laurel, and
-                  Multiflora Rose.
-                </li>
-                <li>
-                  Fauna: Star-nose Mole and the Little Brown Bat, among others.
-                </li>
-              </ul>
-              <p className="mt-4">
-                Explore the unique diversity of life thriving in this woodland,
-                creating a harmonious balance of nature.
-              </p>
+              <p className="mt-4">Explore the unique diversity of life thriving in this woodland.</p>
+
+              <div className="mt-4">
+                <h3 className="text-2xl font-semibold mb-2">Fauna</h3>
+                {faunaNames.length ? (
+                  <ul className="list-disc list-inside grid grid-cols-1 sm:grid-cols-2 gap-1 text-lg">
+                    {faunaNames.map((name) => (
+                      <li key={name}>{name}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-lg">No fauna items available.</p>
+                )}
+              </div>
+
+              <div className="mt-4">
+                <h3 className="text-2xl font-semibold mb-2">Flora</h3>
+                {floraNames.length ? (
+                  <ul className="list-disc list-inside grid grid-cols-1 sm:grid-cols-2 gap-1 text-lg">
+                    {floraNames.map((name) => (
+                      <li key={name}>{name}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-lg">No flora items available.</p>
+                )}
+              </div>
+
+              <div className="mt-4">
+                <h3 className="text-2xl font-semibold mb-2">Fungi</h3>
+                {fungiNames.length ? (
+                  <ul className="list-disc list-inside grid grid-cols-1 sm:grid-cols-2 gap-1 text-lg">
+                    {fungiNames.map((name) => (
+                      <li key={name}>{name}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-lg">No fungi items available.</p>
+                )}
+              </div>
+
             </div>
           </div>
         </div>
-        <div className="mb-4">
+      </div>
+
+      {/* Heritage and Legacy Section*/}
+      <div className="w-full max-w-4xl mb-4">
           <button
             className="flex justify-between w-full p-4 bg-gray-100 dark:bg-gray-800 text-2xl font-semibold rounded-lg shadow-md focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700"
             onClick={() => toggleAccordion("heritageLegacy")}
@@ -161,39 +221,61 @@ const About = () => {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Mission Section with "Learn More" Toggle */}
-      <div className="w-full max-w-4xl text-left">
-        <h2 className="text-4xl font-bold mb-4">Mission Statement</h2>
-        <p className="text-2xl leading-relaxed">
-          Our mission is to preserve and enhance the ecological integrity of
-          this woodland site.
-          {showMoreMission && (
-            <span>
-              {" "}
-              We aim to protect habitats, promote sustainable practices, and
-              foster a deep appreciation for our environment through education
-              and community engagement.
-            </span>
-          )}
-        </p>
+      {/* Mission Section */}
+      <div className="w-full max-w-4xl mb-4">
         <button
-          onClick={() => setShowMoreMission(!showMoreMission)}
-          className="mt-2 text-lg text-blue-600 dark:text-blue-400 hover:underline focus:outline-none"
+          className="flex justify-between w-full p-4 bg-gray-100 dark:bg-gray-800 text-2xl font-semibold rounded-lg shadow-md focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700"
+          onClick={() => toggleAccordion('mission')}
         >
-          {showMoreMission ? "Show Less" : "Learn More"}
+          <span>Mission Statement</span>
+          {accordionState.mission ? (
+            <AiOutlineMinus className="text-3xl" />
+          ) : (
+            <AiOutlinePlus className="text-3xl" />
+          )}
         </button>
+        <div
+          className={`overflow-hidden transition-[max-height] duration-500 ease-in-out ${
+            accordionState.mission ? 'max-h-screen' : 'max-h-0'
+          }`}
+        >
+          <div className="p-4 text-2xl bg-gray-50 dark:bg-gray-900 rounded-b-lg shadow-md">
+            <p>
+              Our mission is to preserve and enhance the ecological integrity of
+              this woodland site. We aim to protect habitats, promote sustainable practices, and foster a
+              deep appreciation for our environment through education and community engagement.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Vision Section */}
-      <div className="w-full max-w-4xl mt-12">
-        <h2 className="text-4xl font-bold mb-4">Vision</h2>
-        <p className="text-2xl leading-relaxed">
-          We envision a thriving ecosystem that serves as a beacon for
-          conservation efforts, inspiring future generations to cherish and
-          protect this natural treasure.
-        </p>
+      <div className="w-full max-w-4xl mb-12">
+        <button
+          className="flex justify-between w-full p-4 bg-gray-100 dark:bg-gray-800 text-2xl font-semibold rounded-lg shadow-md focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700"
+          onClick={() => toggleAccordion('vision')}
+        >
+          <span>Vision</span>
+          {accordionState.vision ? (
+            <AiOutlineMinus className="text-3xl" />
+          ) : (
+            <AiOutlinePlus className="text-3xl" />
+          )}
+        </button>
+        <div
+          className={`overflow-hidden transition-[max-height] duration-500 ease-in-out ${
+            accordionState.vision ? 'max-h-screen' : 'max-h-0'
+          }`}
+        >
+          <div className="p-4 text-2xl bg-gray-50 dark:bg-gray-900 rounded-b-lg shadow-md">
+            <p>
+              We envision a thriving ecosystem that serves as a beacon for
+              conservation efforts, inspiring future generations to cherish and
+              protect this natural treasure.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
