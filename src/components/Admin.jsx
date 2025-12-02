@@ -123,7 +123,7 @@ const Admin = () => {
             </h2>
             <div
                 id="pendingGallery"
-                className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-red-500/50 min-h-64 p-bottom-16"
+                className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-yellow-500/50 min-h-64 p-bottom-16"
             >
                 {pendingArray.map((filename, i) => (
                     <div
@@ -153,7 +153,7 @@ const Admin = () => {
             </h2>
             <div
                 id="AcceptedGallery"
-                className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-green-500/50 min-h-64"
+                className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-blue-500/50 min-h-64"
             >
                 {approvedArray.map((filename, i) => (
                     <div
@@ -179,7 +179,7 @@ const Admin = () => {
 
                         {/* Close button */}
                         <button
-                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2"
+                            className="absolute top-2 right-2 bg-yellow-500 text-white rounded-full p-2"
                             onClick={closeModal}
                         >
                             ✕
@@ -198,13 +198,13 @@ const Admin = () => {
                             {pendingArray.includes(selectedItem) && (
                                 <>
                                     <button
-                                        className="bg-green-500 text-white px-4 py-2 rounded-lg font-calibri"
+                                        className="bg-blue-500 text-white px-4 py-2 rounded-lg font-calibri"
                                         onClick={() => handleAccept(selectedItem)}
                                     >
                                         Accept
                                     </button>
                                     <button
-                                        className="bg-red-500 text-white px-4 py-2 rounded-lg font-calibri"
+                                        className="bg-yellow-500 text-white px-4 py-2 rounded-lg font-calibri"
                                         onClick={() => handleDeny(selectedItem)}
                                     >
                                         Deny
@@ -214,7 +214,7 @@ const Admin = () => {
 
                             {approvedArray.includes(selectedItem) && (
                                 <button
-                                    className="bg-red-600 text-white px-4 py-2 rounded-lg font-calibri"
+                                    className="bg-yellow-600 text-white px-4 py-2 rounded-lg font-calibri"
                                     onClick={() => {
                                         if (window.confirm("Are you sure you want to remove this image?")) {
                                             handleRemove(selectedItem);

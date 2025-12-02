@@ -51,10 +51,10 @@ const Gallery = () => {
   // ----------------- ENSURING SERVER IS UP -----------------
 
   // ----------------- GALLERY IMAGE FETCHING -----------------
-/**
- * Effect hook: fetches all accepted images from server on initial render.
- * Populates imageArray state.
- */
+  /**
+   * Effect hook: fetches all accepted images from server on initial render.
+   * Populates imageArray state.
+   */
   useEffect(() => {
     async function getImages() {
       //Get the response.data from our axios request
@@ -172,23 +172,18 @@ const Gallery = () => {
       {/* Modal for displaying the selected item's details */}
       {selectedItem && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          {/* Semi-transparent background for the modal */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 relative max-w-lg w-full">
-            {/* Modal container with styling */}
+          {/* Modal container scales with image */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 relative max-w-[90vw] max-h-[90vh] overflow-auto">
             <button
-              className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2"
-              // Close button with styling
+              className="absolute top-2 right-2 bg-yellow-500 text-white rounded-full p-2"
               onClick={closeModal}
             >
               X
             </button>
             <img
               src={`${serverHost}/api/accepted/${selectedItem}`}
-              // Image of the selected item
               alt={selectedItem}
-              // Alternative text for the image
-              className="w-auto h-auto object-fill rounded-lg mb-4"
-            // Image styling inside the modal
+              className="rounded-lg mb-4 max-w-[80vw] max-h-[80vh] w-auto h-auto"
             />
           </div>
         </div>
