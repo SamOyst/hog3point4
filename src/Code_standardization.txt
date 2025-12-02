@@ -1,0 +1,1 @@
+Text: font-calibri, no smaller than 16px (this should be default so don't set it lower), #FFFFC5 in dark mode

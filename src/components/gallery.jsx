@@ -1,145 +1,202 @@
-// Author: Kunal Singla(A00461346) 
-// Purpose: This file represents the gallery component.
+// Authors: Kunal Singla(A00461346)
+//          Sam Oystreck (A00478278)
+//          OpenAI ChatGPT
+// Purpose: This file holds the workings for a gallery
 
+
+//imports
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-// Optional initial images
-import image1 from '../assets/download-1.jpg';
-import image2 from '../assets/download-2.jpg';
-import image3 from '../assets/download-3.jpg';
+import { useDropzone } from 'react-dropzone';
+import { serverHost } from '../constants';
 
 const Gallery = () => {
-  const CLOUD_NAME = 'dqfydborc';
-  const UPLOAD_PRESET = 'hog3point4';
 
-  // Load saved images from localStorage or fallback to initial images
-  const loadImages = () => {
-    const saved = localStorage.getItem('galleryImages');
-    if (saved) return JSON.parse(saved);
-    return [
-      { src: image1, name: 'Image 1' },
-      { src: image2, name: 'Image 2' },
-      { src: image3, name: 'Image 3' },
-    ];
-  };
+  //Variables
+  //Modal pannel
+  const [selectedItem, setSelectedItem] = useState(null);
+  const closeModal = () => setSelectedItem(null);
+  //Server Health
+  const [serverUp, setServerUp] = useState(true);
+  const [checkingServer, setCheckingServer] = useState(true);
+  //Image array for gallery
+  const [imageArray, setImageArray] = useState([]);
 
-  const [images, setImages] = useState(loadImages());
-  const [isDragging, setIsDragging] = useState(false);
 
-  // Save to localStorage whenever images change
+  // ----------------- ENSURING SERVER IS UP -----------------
+  /**
+ * Effect hook: checks if the server is up on initial render.
+ * Sends a request to the server, displays the page if recieved, if not waits 3s, then declares it down
+ */
   useEffect(() => {
-    localStorage.setItem('galleryImages', JSON.stringify(images));
-  }, [images]);
+    async function checkServer() {
+      //Checks to see if the server is up
+      try {
+        await axios.get(serverHost + "/api/acceptedImages", {
+          timeout: 3000,
+        });
+        //Good to display
+        setServerUp(true);
 
-  // Upload a file to Cloudinary
-  const uploadToCloudinary = async (file) => {
+        //Runs if the server is not up
+      } catch (err) {
+        setServerUp(false);
+      } finally {
+        setCheckingServer(false);
+      }
+    }
+
+    checkServer();
+  }, []);
+  // ----------------- ENSURING SERVER IS UP -----------------
+
+  // ----------------- GALLERY IMAGE FETCHING -----------------
+/**
+ * Effect hook: fetches all accepted images from server on initial render.
+ * Populates imageArray state.
+ */
+  useEffect(() => {
+    async function getImages() {
+      //Get the response.data from our axios request
+      const accepted = await axios.get(serverHost + "/api/acceptedImages")
+      setImageArray(accepted.data);
+    }
+
+    getImages();
+
+    //Ensures it runs on initial render only
+  }, []);
+  // ----------------- GALLERY IMAGE FETCHING -----------------
+
+  // ----------------- PICTURE UPLOADING -----------------
+  /**
+ * Handle dropped files from the drag-and-drop area and upload to the server.
+ * 
+ * @param {File[]} acceptedFiles - Array of image files selected by the user
+ */
+  const onDrop = async (acceptedFiles) => {
+    //creating the data to send
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', UPLOAD_PRESET);
+    acceptedFiles.forEach((file) => formData.append("image", file));
 
-    const res = await axios.post(
-      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-      formData
-    );
-
-    return { src: res.data.secure_url, name: file.name };
-  };
-
-  const handleFiles = async (files) => {
+    //attempt to upload
     try {
-      const uploaded = await Promise.all(
-        Array.from(files).map(uploadToCloudinary)
+      const res = await axios.post(
+        `${serverHost}/api/upload`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
-      setImages((prev) => [...prev, ...uploaded]);
+
+      //ensuring it goes through
+      console.log("SERVER RESPONSE:", res.data);
     } catch (err) {
-      console.error('Upload failed:', err);
-      alert('Error uploading images. Check console.');
+      console.error("Upload failed:", err);
     }
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-  const handleDragLeave = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-  };
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-    if (e.dataTransfer.files.length > 0) handleFiles(e.dataTransfer.files);
-  };
-  const handleInputChange = (e) => {
-    if (e.target.files.length > 0) handleFiles(e.target.files);
-  };
+  /**
+ * Configure react-dropzone for drag-and-drop functionality.
+ * Provides root and input props for drop area.
+ */
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: { "image/*": [] },
+  });
+  // ----------------- PICTURE UPLOADING -----------------
 
-  // Remove broken images (failed to load)
-  const handleImageError = (index) => {
-    setImages((prev) => {
-      const copy = [...prev];
-      copy.splice(index, 1);
-      return copy;
-    });
-  };
+  // ----------------- DISPLAY GALLERY DOWN  -----------------
+  if (checkingServer) {
+    return (
+      <div className="text-center text-4xl text-black-500 p-10">
+        Checking server status...
+      </div>
+    );
+  }
 
+  if (!serverUp) {
+    return (
+      <div className="text-center text-4xl text-red-500 p-10 font-calibri">
+        The gallery server is currently offline.
+      </div>
+    );
+  }
+  // ----------------- DISPLAY GALLERY DOWN -----------------
+
+  // ----------------- DISPLAY THE GALLERY -----------------
   return (
     <div className="p-8 bg-gray-100 dark:bg-gray-900 min-h-screen">
-      <h1 className="text-4xl font-bold text-center mb-6 text-gray-900 dark:text-gray-100">
+
+      {/*Head*/}
+      <h1 className="text-4xl font-calibri text-center mb-6 text-gray-900 dark:text-gray-100">
         Enchanting Forest Gallery
       </h1>
+      <p className="text-center text-lg text-gray-600 dark:text-gray-300 mb-8">
+        Discover the breathtaking beauty of forests and serene landscapes. Feel free to add your favorite photos to enrich this gallery!
+      </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {images.map((img, idx) => (
+      {/* Drag and drop box */}
+      <div
+        {...getRootProps()}
+        className={`border-4 border-dashed rounded-xl p-16 mb-8 text-center cursor-pointer transition 
+    ${isDragActive ? "border-blue-500 bg-blue-100" : "border-gray-400 bg-gray-200"} 
+    hover:bg-gray-300`}
+      >
+        <input {...getInputProps()} />
+        {isDragActive ? (
+          <p className="text-blue-600 font-calibri text-2xl">Drop files here…</p>
+        ) : (
+          <p className="text-gray-700 font-calibri text-2xl">Drag & drop images here, or click to upload</p>
+        )}
+      </div>
+
+      {/* Gallery Grid */}
+      <div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
+        {imageArray.map((filename, i) => (
           <div
-            key={idx}
-            className="relative group overflow-hidden rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 flex justify-center items-center bg-gray-200 dark:bg-gray-800"
-            style={{ height: '16rem' }}
+            key={i}
+            className="relative group overflow-hidden rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105"
+            onClick={() => setSelectedItem(filename)}
           >
+            {/* Image */}
             <img
-              src={`${img.src}?v=${Date.now()}`} // cache-busting query
-              alt={img.name}
-              onError={() => handleImageError(idx)}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              src={`${serverHost}/api/accepted/${filename}`}
+              alt={filename}
+              className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-              <p className="text-white text-lg font-semibold">{img.name}</p>
-            </div>
           </div>
         ))}
       </div>
 
-      {/* Drag-and-Drop Upload */}
-      <div
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-        className={`mt-10 text-center border-2 border-dashed border-gray-500 p-6 rounded-lg transition-all duration-300 cursor-pointer ${
-          isDragging
-            ? 'bg-blue-100 border-blue-500 dark:bg-blue-800'
-            : 'bg-gray-200 dark:bg-gray-800'
-        } hover:shadow-lg hover:bg-gray-300 dark:hover:bg-gray-700`}
-      >
-        <p className="text-gray-700 dark:text-gray-300">
-          {isDragging
-            ? 'Drop the images here...'
-            : 'Drag and drop images here or click below to upload'}
-        </p>
-        <label className="block mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition-transform duration-300 hover:scale-105">
-          Upload Images
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleInputChange}
-            style={{ display: 'none' }}
-          />
-        </label>
-      </div>
+      {/* Modal for displaying the selected item's details */}
+      {selectedItem && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          {/* Semi-transparent background for the modal */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 relative max-w-lg w-full">
+            {/* Modal container with styling */}
+            <button
+              className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2"
+              // Close button with styling
+              onClick={closeModal}
+            >
+              X
+            </button>
+            <img
+              src={`${serverHost}/api/accepted/${selectedItem}`}
+              // Image of the selected item
+              alt={selectedItem}
+              // Alternative text for the image
+              className="w-auto h-auto object-fill rounded-lg mb-4"
+            // Image styling inside the modal
+            />
+          </div>
+        </div>
+      )}
     </div>
-  );
+  )
 };
+
 
 export default Gallery;
 

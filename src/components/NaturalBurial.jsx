@@ -8,10 +8,6 @@ import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 
 const NaturalBurial = () => {
   const [isPaused, setIsPaused] = useState(false);
-  const [accordionState, setAccordionState] = useState({
-    floraFauna: false,
-    heritageLegacy: false,
-  });
   const [showMoreMission, setShowMoreMission] = useState(false);
   const [voices, setVoices] = useState([]);
   const speechSynthesisRef = useRef(null);
@@ -63,138 +59,63 @@ const NaturalBurial = () => {
     }
   };
 
-  // Toggle accordion state
-  const toggleAccordion = (section) => {
-    setAccordionState((prev) => ({
-      ...prev,
-      [section]: !prev[section],
-    }));
-  };
-
   return (
     <div className="p-8 bg-white dark:bg-darkerBlue text-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center">
       {/* Header Section */}
-      <div className="flex items-center justify-center w-full mb-10">
-        <h1 className="text-5xl font-bold text-center flex-1">
-          About St. Margaret’s Bay Area Woodland Conservation Site
+      <div className="flex items-center justify-center w-full">
+        <h1 className="text-4xl font-bold text-center mb-5 text-gray-900 dark:text-gray-100">
+          Natural Burial at St. Margaret’s Bay Area Woodland Conservation Site
         </h1>
-        <button
-          onClick={handleTextToSpeech}
-          className="ml-4 bg-yellow-400 text-gray-900 dark:bg-yellow-500 dark:text-gray-100 rounded-full p-5 focus:outline-none"
-        >
-          {speechSynthesisRef.current && !isPaused ? (
-            <IoVolumeOff className="text-3xl" />
-          ) : (
-            <IoVolumeHigh className="text-3xl" />
-          )}
-        </button>
       </div>
-
-      {/* Hero Image */}
-      <div className="mb-10">
-        <img
-          src={outlookImage}
-          alt="Woodland Outlook"
-          className="w-full h-auto max-w-4xl rounded-lg shadow-lg transition-transform transform hover:scale-105"
-        />
-      </div>
-
-      {/* Accordion Section */}
-      <div className="w-full max-w-4xl mb-12">
-        <div className="mb-4">
+      
+      <div>
+        <p className="text-lg flex p-8 mb-5">
+          Natural burial is an eco-friendly approach to burial where the body is returned to the earth with minimal environmental impact, 
+          using biodegradable materials and without harmful chemicals.
           <button
-            className="flex justify-between w-full p-4 bg-gray-100 dark:bg-gray-800 text-2xl font-semibold rounded-lg shadow-md focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700"
-            onClick={() => toggleAccordion("floraFauna")}
+            onClick={handleTextToSpeech}
+            className="ml-4 bg-yellow-400 text-gray-900 dark:bg-yellow-500 dark:text-gray-100 rounded-full p-5 focus:outline-none"
           >
-            <span>Flora and Fauna</span>
-            {accordionState.floraFauna ? (
-              <AiOutlineMinus className="text-3xl" />
+            {speechSynthesisRef.current && !isPaused ? (
+              <IoVolumeOff className="text-3xl" />
             ) : (
-              <AiOutlinePlus className="text-3xl" />
+              <IoVolumeHigh className="text-3xl" />
             )}
           </button>
-          <div
-            className={`overflow-hidden transition-[max-height] duration-500 ease-in-out ${
-              accordionState.floraFauna ? "max-h-screen" : "max-h-0"
-            }`}
-          >
-            <div className="p-4 text-2xl bg-gray-50 dark:bg-gray-900 rounded-b-lg shadow-md">
-              <ul className="list-disc list-inside">
-                <li>
-                  Flora: Red Maple, Wild Carrot, Coltsfoot, Sheep Laurel, and
-                  Multiflora Rose.
-                </li>
-                <li>
-                  Fauna: Star-nose Mole and the Little Brown Bat, among others.
-                </li>
-              </ul>
-              <p className="mt-4">
-                Explore the unique diversity of life thriving in this woodland,
-                creating a harmonious balance of nature.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="mb-4">
-          <button
-            className="flex justify-between w-full p-4 bg-gray-100 dark:bg-gray-800 text-2xl font-semibold rounded-lg shadow-md focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700"
-            onClick={() => toggleAccordion("heritageLegacy")}
-          >
-            <span>Heritage and Legacy</span>
-            {accordionState.heritageLegacy ? (
-              <AiOutlineMinus className="text-3xl" />
-            ) : (
-              <AiOutlinePlus className="text-3xl" />
-            )}
-          </button>
-          <div
-            className={`overflow-hidden transition-[max-height] duration-500 ease-in-out ${
-              accordionState.heritageLegacy ? "max-h-screen" : "max-h-0"
-            }`}
-          >
-            <div className="p-4 text-2xl bg-gray-50 dark:bg-gray-900 rounded-b-lg shadow-md">
-              <p>
-                The woodland is a testament to the natural history of the
-                region. Each tree and stone carries stories of the past, adding
-                to the rich narrative of this thriving ecosystem.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Mission Section with "Learn More" Toggle */}
-      <div className="w-full max-w-4xl text-left">
-        <h2 className="text-4xl font-bold mb-4">Mission Statement</h2>
-        <p className="text-2xl leading-relaxed">
-          Our mission is to preserve and enhance the ecological integrity of
-          this woodland site.
-          {showMoreMission && (
-            <span>
-              {" "}
-              We aim to protect habitats, promote sustainable practices, and
-              foster a deep appreciation for our environment through education
-              and community engagement.
-            </span>
-          )}
-        </p>
-        <button
-          onClick={() => setShowMoreMission(!showMoreMission)}
-          className="mt-2 text-lg text-blue-600 dark:text-blue-400 hover:underline focus:outline-none"
-        >
-          {showMoreMission ? "Show Less" : "Learn More"}
-        </button>
-      </div>
-
-      {/* Vision Section */}
-      <div className="w-full max-w-4xl mt-12">
-        <h2 className="text-4xl font-bold mb-4">Vision</h2>
-        <p className="text-2xl leading-relaxed">
-          We envision a thriving ecosystem that serves as a beacon for
-          conservation efforts, inspiring future generations to cherish and
-          protect this natural treasure.
         </p>
       </div>
+
+      <div className="bg-green-500 dark:bg-green-800 rounded-xl p-5 w-full">
+        <p className="text-2xl flex items-center justify-center w-full m-5 text-center">
+          Options for Burial Material
+        </p>
+        <table className=" table-fixed text-center w-full border-separate border-spacing-5">
+          <tr>
+            <td className="bg-white dark:bg-darkerBlue rounded-lg p-5 m-10 leading-loose text-xl">Pinebox<img 
+              src="src\assets\pinebox.jpg" alt="Pinebox Image" className="mx-auto rounded-lg w-[80%]"></img><br></br>
+              A biodegradable box with limited affect on the surrounding environment</td>
+            <td className="bg-white dark:bg-darkerBlue rounded-lg m-10 leading-loose text-xl">Shroud<img 
+              src="src\assets\burialshroud.png" alt="Shroud Image" className="mx-auto rounded-lg w-[75%]"></img><br></br>
+              A simple biodegradable cloth wrapping</td>
+          </tr>
+        </table>
+        <p className="text-2xl flex items-center justify-center w-full my-5 text-center">
+          Options for Burial Marking
+        </p>
+        <table className="w-full table-fixed text-center border-separate border-spacing-5">
+          <tr>
+            <td className="bg-white dark:bg-darkerBlue rounded-lg p-5 leading-loose">Small Bush<img 
+              src="src\assets\bushmarking.jpg" alt="Bush Marker Image" className="mx-auto rounded-lg w-[80%]"></img></td>
+            <td className="bg-white dark:bg-darkerBlue rounded-lg m-10 leading-loose">Wooden Sign<img 
+              src="src\assets\signmarking.jpg" alt="Sign Image" className="mx-auto rounded-lg w-[75%]"></img></td>  
+            <td className="bg-white dark:bg-darkerBlue rounded-lg m-10 leading-loose">GPS Coordinates<img 
+              src="src\assets\gps.jpeg" alt="GPS Image" className="mx-auto rounded-lg w-[82%]"></img></td>
+          </tr>
+        </table>
+      </div>
+    <div className="text-lg flex p-8">
+      <p>Please reach out to us through our Contact page to learn more about individual and family burial.</p>
+    </div>
     </div>
   );
 };
