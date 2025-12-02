@@ -1,0 +1,16 @@
+The end goal is to have an accessible webpage and one of two things will likely occur
+    - Woodland Conservation will have to host front+backend on a pc (Not highly likely)
+    - Woodland Conservation will have to put the front and backend up on a server to be hosted
+
+Running a backend through node.js with some help from express (a tool for node.js)
+    - Installed express in backend (generated node_modules and the package-lock)
+    - Installed cors, configured project to run on port 4000 and cors to only accept input from port 4000
+    - Axios will let us make requests
+
+To run:
+    - install npm?
+    - npm install express
+    - NPM run dev - runs the vite app as developper
+    - cd src/backend - moves to the backend folder
+    - node server.js - starts the server
+    - http://localhost:4000/admin for admin page
