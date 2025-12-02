@@ -89,6 +89,18 @@ const FloraFaunaFungi = () => {
           Search
         </button>
       </div>
+
+<h1 className="text-4xl p-8 text-center mb-10 text-gray-900 dark:text-gray-100">
+        The Ecosystem of The St. Margaret's Bay Woodland Conservation Area
+        <p className="text-2xl pt-4 mx-auto text-center w-4/5 pt-4">
+          The St. Margaret’s Bay Area Woodland Conservation ecosystem is home 
+          to a vast and diverse ecosystem home to many different flora, fauna and fungi.
+          This includes many different mammals such as skunk, deer and even moose.
+          Additionally, the terrain itself is very unique including wetlands and forest:
+          take a look at it here!
+        </p>
+      </h1>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {visibleData.map((item, index) => (
           <div
