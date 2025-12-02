@@ -5,19 +5,21 @@
 
 // src/components/SiteMap.jsx
 import React, { useState } from "react";
-import { APIProvider, Map, Marker, Pin, AdvancedMarker } from "@vis.gl/react-google-maps";
-
-
-import rewildingBirch from '../assets/rewildingBirch222.jpg';
-import trailHead from '../assets/hiking.png';
-import farm from '../assets/farm.png';
-import well from '../assets/water-well.png';
-import sitting from '../assets/sitting.png';
-import birch from '../assets/birch.png';
+import {
+  APIProvider,
+  Map,
+  Marker,
+  AdvancedMarker,
+} from "@vis.gl/react-google-maps"; // to use run npm install @vis.gl/react-google-maps in project directory
+import rewildingBirch from "../assets/rewildingBirch222.jpg";
+import trailHead from "../assets/hiking.png";
+import farm from "../assets/farm.png";
+import well from "../assets/water-well.png";
+import sitting from "../assets/sitting.png";
+import birch from "../assets/birch.png";
 import mapData from "../assets/map.json";
 
 const DEFAULT_CENTER = { lat: 44.6247822, lng: -63.920578 };
-
 
 const pointsOfInterest = [
   {
@@ -25,30 +27,40 @@ const pointsOfInterest = [
     name: "Trailhead",
     googlePosition: { lat: 44.625028, lng: -63.921417 },
     icon: trailHead,
+    clickText:
+      "Trailhead: Start the 1 km trail here, right behind St. Paul's Church and beside the parking lot.",
   },
   {
     id: 2,
     name: "Farmhouse Foundation",
     googlePosition: { lat: 44.625833, lng: -63.920972 },
     icon: farm,
+    clickText:
+      "Farmhouse Foundation: These low stones mark the remains of a small forest cabin that once served a farm family.",
   },
   {
     id: 3,
     name: "Well",
     googlePosition: { lat: 44.624022, lng: -63.920028 },
     icon: well,
+    clickText:
+      "Well: This old well gave water to church neighbors and the few families who lived nearby.",
   },
   {
     id: 4,
     name: "Sitting Area",
     googlePosition: { lat: 44.625028, lng: -63.920417 },
     icon: sitting,
+    clickText:
+      "Sitting Area: A quiet clearing to rest, listen to the wind, and take in beauty of the nature.",
   },
   {
     id: 5,
     name: "Coastal Yellow Birch",
     googlePosition: { lat: 44.624, lng: -63.920056 },
     icon: birch,
+    clickText:
+      "Coastal Yellow Birch: From here the trail is full of bright yellow birch trees that are easy to spot because of their golden bark.",
   },
 ];
 
@@ -57,6 +69,9 @@ function SiteMap() {
   const [mapZoom, setMapZoom] = useState(14);
   const [userLocation, setUserLocation] = useState(null);
   const [hasLocation, setHasLocation] = useState(false);
+
+  // NEW: which POI is currently selected (for info text)
+  const [selectedPoi, setSelectedPoi] = useState(null);
 
   const handleUseMyLocation = () => {
     if (!navigator.geolocation) {
@@ -70,8 +85,8 @@ function SiteMap() {
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
         };
-        setUserLocation(coords);   // marker position
-        setMapCenter(coords);      // recenter map once
+        setUserLocation(coords); // marker position
+        setMapCenter(coords); // recenter map once
         setMapZoom(16);
         setHasLocation(true);
       },
@@ -81,28 +96,31 @@ function SiteMap() {
       }
     );
   };
-  const PoiMarkers = ({ pois }) => (
-  <>
-    {pois.map((poi) => (
-      <AdvancedMarker
-        key={poi.id}
-        position={poi.googlePosition}
-        title={poi.name}
-      >
-        <img
-          src={poi.icon}
-          alt={poi.name}
-          style={{
-            width: 32,
-            height: 32,
-            transform: "translate(-50%, -50%)", // center on point
-            filter: "drop-shadow(0 0 4px rgba(0,0,0,0.7))",
-          }}
-        />
-      </AdvancedMarker>
-    ))}
-  </>
-);
+
+  // Render POI markers with click handler
+  const PoiMarkers = ({ pois, onPoiClick }) => (
+    <>
+      {pois.map((poi) => (
+        <AdvancedMarker
+          key={poi.id}
+          position={poi.googlePosition}
+          title={poi.name}
+          onClick={() => onPoiClick(poi)} // <- click selects this POI
+        >
+          <img
+            src={poi.icon}
+            alt={poi.name}
+            style={{
+              width: 32,
+              height: 32,
+              transform: "translate(-50%, -50%)", // center on point
+              filter: "drop-shadow(0 0 4px rgba(0,0,0,0.7))",
+            }}
+          />
+        </AdvancedMarker>
+      ))}
+    </>
+  );
 
   return (
     <APIProvider
@@ -152,33 +170,79 @@ function SiteMap() {
           Use my location
         </button>
 
+        {/* Info box for selected POI */}
+        {selectedPoi && (
+          <div
+            style={{
+              position: "absolute",
+              bottom: 20,
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 3,
+              maxWidth: 400,
+              padding: "10px 14px",
+              background: "rgba(0,0,0,0.8)",
+              color: "white",
+              borderRadius: 10,
+              fontSize: 14,
+              boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 4,
+              }}
+            >
+              <strong>{selectedPoi.name}</strong>
+              <button
+                onClick={() => setSelectedPoi(null)}
+                style={{
+                  marginLeft: 8,
+                  border: "none",
+                  background: "transparent",
+                  color: "white",
+                  cursor: "pointer",
+                  fontSize: 16,
+                  lineHeight: 1,
+                }}
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+            <div>{selectedPoi.clickText}</div>
+          </div>
+        )}
+
         {/* The map itself */}
         <Map
           style={{ width: "100%", height: "100%" }}
           center={mapCenter}
           zoom={mapZoom}
-          //mapTypeId="hybrid"
+          // mapTypeId="hybrid"
           mapId="f010a907a8acdb54c13b6e8a"
           gestureHandling="greedy"
           onCameraChanged={(ev) => {
             const { center, zoom } = ev.detail;
-            setMapCenter(center);   // only move camera, not marker
+            setMapCenter(center); // only move camera, not marker
             setMapZoom(zoom);
           }}
         >
-
           {/* Marker: stays at userLocation (or default center if none yet) */}
           <Marker position={userLocation || DEFAULT_CENTER} />
-           {/* POI markers */}
-           <PoiMarkers pois={pointsOfInterest} />
 
-          
+          {/* POI markers with click interaction */}
+          <PoiMarkers
+            pois={pointsOfInterest}
+            onPoiClick={setSelectedPoi}
+          />
         </Map>
       </div>
     </APIProvider>
   );
 }
-
-
 
 export default SiteMap;
