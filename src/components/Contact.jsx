@@ -51,7 +51,7 @@ const Contact = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Name Input */}
             <div>
-              <label htmlFor="name" className="block text-lg font-medium mb-2 flex items-center">
+              <label htmlFor="name" className="block text-lg font-medium mb-2 items-center">
                 Name
                 <button
                   onClick={() => speakText('Please enter a name')}
@@ -70,7 +70,7 @@ const Contact = () => {
 
             {/* Email Input */}
             <div>
-              <label htmlFor="email" className="block text-lg font-medium mb-2 flex items-center">
+              <label htmlFor="email" className="block text-lg font-medium mb-2 items-center">
                 Email
                 <button
                   onClick={() => speakText('Please enter an email')}
@@ -90,7 +90,7 @@ const Contact = () => {
 
           {/* Message Input */}
           <div className="mb-6">
-            <label htmlFor="message" className="block text-lg font-medium mb-2 flex items-center">
+            <label htmlFor="message" className="block text-lg font-medium mb-2 items-center">
               Message
               <button
                 onClick={() => speakText('Please enter a message')}

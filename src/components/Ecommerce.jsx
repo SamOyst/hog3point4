@@ -1,5 +1,5 @@
-// src/components/Ecommerce.jsx
-
+// Author: Danesh Elahi (A00479230)
+// Purpose: To display the Ecommerce section of the Woodland Conservation website.
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiUser, FiHeart, FiShoppingCart } from "react-icons/fi";
@@ -10,7 +10,7 @@ const products = [
     name: "Eco-Friendly Water Bottle",
     price: 29.99,
     desc: "Reusable BPA-free bottle for hikes and daily use.",
-    img: "/images/waterbottle.jpg",
+    img: "src/assets/waterbottle.jpg", 
     category: "On-the-Go",
     rating: 4.7,
     reviews: [
@@ -31,7 +31,7 @@ const products = [
     name: "Organic Cotton Tote Bag",
     price: 19.99,
     desc: "Durable tote made from 100% organic cotton.",
-    img: "/images/totebag.jpg",
+    img: "src/assets/totebag.jpg",
     category: "Bags",
     rating: 4.5,
     reviews: [
@@ -52,7 +52,7 @@ const products = [
     name: "Bamboo Toothbrush Pack",
     price: 14.99,
     desc: "Pack of 4 biodegradable bamboo toothbrushes.",
-    img: "/images/toothbrush.jpg",
+    img: "src/assets/toothbrush.jpg",
     category: "Personal Care",
     rating: 4.6,
     reviews: [
@@ -73,7 +73,7 @@ const products = [
     name: "Wildflower Seed Mix",
     price: 12.5,
     desc: "Native wildflower seeds to support local pollinators.",
-    img: "/images/wildflower-seeds.jpg",
+    img: "src/assets/wildflower-seeds.jpg",
     category: "Home & Garden",
     rating: 4.8,
     reviews: [
@@ -89,7 +89,8 @@ const products = [
     name: "Recycled Paper Notebook",
     price: 9.99,
     desc: "Notebook made from 100% recycled paper.",
-    img: "/images/notebook.jpg",
+
+    img: "src/assets/notebook.jpg",
     category: "Stationery",
     rating: 4.3,
     reviews: [
@@ -105,7 +106,7 @@ const products = [
     name: "Stainless Steel Travel Mug",
     price: 24.99,
     desc: "Insulated mug ideal for warm drinks on cool woodland mornings.",
-    img: "/images/travel-mug.jpg",
+    img: "src/assets/travel-mug.jpg",
     category: "On-the-Go",
     rating: 4.9,
     reviews: [
@@ -192,15 +193,15 @@ export default function Ecommerce() {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 dark:bg-darkerBlue min-h-screen">
       {/* top info strip right under main navbar */}
-      <div className="bg-green-900 text-white text-center text-xs md:text-sm py-2">
+      <div className="bg-green-900 text-white text-center dark:text-gray-900 text-xs md:text-sm py-2">
         Conscious giving starts here — eco products imagined to support the Woodland
         Conservation Area.
       </div>
 
       {/* search + profile / wishlist / cart bar */}
-      <div className="bg-green-800 text-white">
+      <div className="bg-green-800 text-white dark:text-gray-900">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4 px-4 py-3">
           <span className="font-semibold text-sm md:text-base">
             Woodland Eco Marketplace
@@ -212,7 +213,7 @@ export default function Ecommerce() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search eco products..."
-              className="w-full rounded-full px-4 py-1.5 text-sm text-gray-900 focus:outline-none"
+              className="w-full rounded-full px-4 py-1.5 text-sm text-gray-900 dark:text-white dark:bg-darkerBlue focus:outline-none"
             />
           </div>
 
@@ -256,7 +257,7 @@ export default function Ecommerce() {
       </div>
 
       {/* hero section */}
-      <section className="relative px-4 md:px-6 py-10 bg-emerald-600 text-white overflow-hidden">
+      <section className="relative px-4 md:px-6 py-10 bg-emerald-600 text-white dark:bg-blue-950 overflow-hidden">
         <div className="max-w-6xl mx-auto flex flex-col items-center text-center gap-4">
           <p className="uppercase text-xs tracking-[0.3em] font-semibold">
             Black Friday Sale
@@ -335,16 +336,16 @@ export default function Ecommerce() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                 Featured Eco Products
               </h2>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Choose items that fit your lifestyle and help care for the woodland at the
                 same time.
               </p>
             </div>
 
-            <div className="text-xs md:text-sm text-gray-700">
+            <div className="text-xs md:text-sm text-gray-700 dark:text-gray-400">
               <span className="mr-4">
                 Cart: <span className="font-semibold">{cartItems.length}</span> items
               </span>
@@ -376,7 +377,7 @@ export default function Ecommerce() {
             {visibleProducts.map((p) => (
               <div
                 key={p.id}
-                className="bg-white rounded-xl shadow-md p-4 hover:shadow-xl hover:-translate-y-1 transition-transform transition-shadow duration-200 flex flex-col"
+                className="bg-white dark:bg-blue-950 rounded-xl shadow-md p-4 hover:shadow-xl hover:-translate-y-1 transition-transform transition-shadow duration-200 flex flex-col"
               >
                 <div className="w-full h-44 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden mb-3">
                   <img
@@ -389,20 +390,20 @@ export default function Ecommerce() {
                   />
                 </div>
 
-                <h3 className="text-lg font-semibold mt-1">{p.name}</h3>
+                <h3 className="text-lg dark:text-white font-semibold mt-1">{p.name}</h3>
                 <p className="text-xs uppercase text-green-700 font-semibold mb-1">
                   {p.category}
                 </p>
-                <p className="text-sm text-gray-600 mb-2 flex-1">{p.desc}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 flex-1">{p.desc}</p>
 
                 <div className="flex items-center text-sm text-yellow-500 mb-2">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <span key={i}>{i < Math.round(p.rating) ? "★" : "☆"}</span>
                   ))}
-                  <span className="ml-2 text-gray-600">{p.rating.toFixed(1)}</span>
+                  <span className="ml-2 text-gray-600 dark:text-gray-400">{p.rating.toFixed(1)}</span>
                 </div>
 
-                <p className="text-xl font-bold mb-3">${p.price.toFixed(2)}</p>
+                <p className="text-xl font-bold mb-3 dark:text-gray-400">${p.price.toFixed(2)}</p>
 
                 <div className="space-y-2">
                   <button
@@ -420,7 +421,7 @@ export default function Ecommerce() {
                   </button>
 
                   <button
-                    className="w-full border border-gray-300 text-gray-700 px-4 py-1.5 rounded-lg hover:bg-gray-50 text-xs"
+                    className="w-full border border-gray-300 text-gray-700 dark:text-gray-400 px-4 py-1.5 rounded-lg hover:bg-gray-50 text-xs"
                     onClick={() => handleAddToWishlist(p)}
                   >
                     Add to Wishlist
@@ -432,7 +433,7 @@ export default function Ecommerce() {
 
           {/* link to checkout page */}
           <div className="mt-10 text-center">
-            <p className="text-gray-700 mb-3">
+            <p className="text-gray-700 dark:text-gray-400 mb-3">
               When this site is fully implemented, checkout would summarize your cart and
               process payment securely.
             </p>
