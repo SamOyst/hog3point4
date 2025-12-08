@@ -1,6 +1,23 @@
-# Getting Started with Create React App
+# Getting Started with Vite
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with Vite
+
+## HOW TO RUN PROJECT
+
+Clone project from github in your ide of your choice navigate to project directory and run the following
+
+## `npm install` 
+
+Installs required packages
+
+## `npm install @vis.gl/react-google-maps`
+
+installs packages for google maps api
+
+## `once installed`
+
+ONCE INSTALLED, IT WILL CREATE A FOLDER CALLED node_modules AND A FILE CALLED package-lock, YOU CAN IGNORE THOSE, WE HAVE A GITIGNORE TO DEAL WITH THEM
+NOW TO SEE IT RUN, TYPE INTO TERMINAL "npm run dev"
 
 ## Available Scripts
 
@@ -68,3 +85,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
