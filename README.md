@@ -4,7 +4,8 @@ This project was bootstrapped with Vite
 
 ## HOW TO RUN PROJECT
 
-Clone project from github in your ide of your choice navigate to project directory and run the following
+Clone project from github in your ide of your choice navigate to project directory and run the following in the terminal 
+you need to have node.js installed in order to run npm commands
 
 ## `npm install` 
 
@@ -85,5 +86,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
 
 
