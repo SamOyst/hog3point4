@@ -14,10 +14,10 @@ Installs required packages
 
 installs packages for google maps api
 
-## `once installed`
+## `npm run dev`
 
 ONCE INSTALLED, IT WILL CREATE A FOLDER CALLED node_modules AND A FILE CALLED package-lock, YOU CAN IGNORE THOSE, WE HAVE A GITIGNORE TO DEAL WITH THEM
-NOW TO SEE IT RUN, TYPE INTO TERMINAL "npm run dev"
+NOW TO SEE IT RUN, TYPE INTO TERMINAL npm run dev
 
 ## Available Scripts
 
@@ -85,4 +85,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
 
