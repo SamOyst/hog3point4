@@ -1,6 +1,5 @@
 // Authors:
-// Bhanu Prakash(A00468530) - Responsible for handling the 'Get Directions' functionality.
-// Cole Turner (A00469026) - Responsible for map interction, UI design, TailWind CSS.
+// Denzyl ALbarracin (A00473792)
 // Purpose: This file represents a site map component for the conservation area. 
 
 // src/components/SiteMap.jsx
@@ -21,6 +20,7 @@ import mapData from "../assets/map.json";
 
 const DEFAULT_CENTER = { lat: 44.6247822, lng: -63.920578 };
 
+// Points of Interest data should be moved to a separate JSON or data file
 const pointsOfInterest = [
   {
     id: 1,
@@ -132,7 +132,9 @@ function SiteMap() {
       ))}
     </>
   );
-
+  // TO FUTURE DEVELOPERS: REPLACE API KEY WITH YOUR OWN AND GENERATE MAP ID AND REPLACE IT IN THE <Map> COMPONENT BELOW
+  // Visit https://developers.google.com/maps/documentation/javascript/get-api-key to get an API key
+  // MUST CREATE A GOOGLE MAPS ACCOUNT AND ENABLE BILLING TO GET AN API KEY there is 90 days free trial with like $200 credit
   return (
     <APIProvider
       apiKey={"AIzaSyCuH_8PIdOnvsmaCPzmFzPRUH6VHzo4a-0"}
@@ -242,7 +244,7 @@ function SiteMap() {
           </div>
         )}
 
-        {/* The map itself */}
+        {/* The map itself CHANGE MAP ID*/}
         <Map
           style={{ width: "100%", height: "100%" }}
           center={mapCenter}
