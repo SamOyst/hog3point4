@@ -2,7 +2,6 @@
 // Denzyl ALbarracin (A00473792)
 // Purpose: This file represents a site map component for the conservation area. 
 
-// src/components/SiteMap.jsx
 import React, { useState } from "react";
 import {
   APIProvider,
@@ -19,7 +18,6 @@ import birch from "../assets/birch.png";
 import mapData from "../assets/map.json";
 
 const DEFAULT_CENTER = { lat: 44.6247822, lng: -63.920578 };
-
 // Points of Interest data should be moved to a separate JSON or data file
 const pointsOfInterest = [
   {
@@ -137,7 +135,7 @@ function SiteMap() {
   // MUST CREATE A GOOGLE MAPS ACCOUNT AND ENABLE BILLING TO GET AN API KEY there is 90 days free trial with like $200 credit
   return (
     <APIProvider
-      apiKey={"AIzaSyCuH_8PIdOnvsmaCPzmFzPRUH6VHzo4a-0"}
+      apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
       onLoad={() => console.log("Maps API has loaded.")}
     >
       <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
@@ -250,7 +248,7 @@ function SiteMap() {
           center={mapCenter}
           zoom={mapZoom}
           // mapTypeId="hybrid"
-          mapId="f010a907a8acdb54c13b6e8a"
+          mapId= {import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
           gestureHandling="greedy"
           onCameraChanged={(ev) => {
             const { center, zoom } = ev.detail;
