@@ -244,6 +244,7 @@ const About = () => {
           )}
         </button>
         <div
+          data-cy="accordion-content-heritageLegacy"
           className={`overflow-hidden transition-[max-height] duration-500 ease-in-out ${accordionState.heritageLegacy ? "max-h-screen" : "max-h-0"
             }`}
         >
