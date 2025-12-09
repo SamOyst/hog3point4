@@ -1,6 +1,7 @@
 // Authors:
 // Bhanu Prakash(A00468530) - Responsible for handling the 'Get Directions' functionality.
 // Cole Turner (A00469026) - Responsible for map interction, UI design, TailWind CSS.
+// Ben Anderson (A00473343) - Text-to-Speech
 // Purpose: This file represents a site map component for the conservation area. 
 
 // src/components/SiteMap.jsx
@@ -18,6 +19,7 @@ import well from "../assets/water-well.png";
 import sitting from "../assets/sitting.png";
 import birch from "../assets/birch.png";
 import mapData from "../assets/map.json";
+import tts from "../assets/tts";
 
 const DEFAULT_CENTER = { lat: 44.6247822, lng: -63.920578 };
 
@@ -262,8 +264,17 @@ function SiteMap() {
           {/* POI markers with click interaction */}
           <PoiMarkers
             pois={pointsOfInterest}
-            onPoiClick={setSelectedPoi}
-          />
+            onPoiClick={(poi) => {
+              setSelectedPoi(poi);
+
+            if (tts.isSpeaking()) {
+              tts.stop();
+            return;
+            }
+
+        tts.speak(poi.clickText);
+  }}
+/>
         </Map>
       </div>
     </APIProvider>

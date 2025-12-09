@@ -1,12 +1,64 @@
-// Authors: Lakshay Bansal (A00467478), Marko Ostrovitsa (A00448932)
+// Authors: Lakshay Bansal (A00467478), Marko Ostrovitsa (A00448932), Ben Anderson (A00473343)
 // Purpose: To display the Contact section of the Woodland Conservation website
+
 import React from "react";
 import dayBackground from "../assets/forest1.png"; // Daytime forest image
 import nightBackground from "../assets/nightforest.png"; // Nighttime forest image
 import { FaTree, FaLeaf, FaSeedling, FaMapMarkedAlt } from "react-icons/fa";
 import { BsArrowRightCircle } from "react-icons/bs";
+import tts from "../assets/tts";
+import { IoVolumeHigh } from "react-icons/io5";
 
 const Homepage = ({ dark }) => {
+  const handleTextToSpeech = () => {
+    const text = `
+      Woodland Conservation Area
+      Immerse yourself in nature's wonders. Discover. Learn. Protect.
+
+      Learn more button.
+
+      Explore Nature
+      Discover trails, wildlife, and serene spots for relaxation.
+      Learn more button.
+
+      Conservation Education
+      Attend workshops on sustainability and biodiversity.
+      Learn more button.  
+
+      Volunteer & Support
+      Join us in tree-planting events or contribute to our cause.
+      Learn more button.
+
+      Quick Facts,
+      500+ Acres of Protected Land,
+      200+ Wildlife Species,
+      10,000+ Annual Visitors.
+
+      What Visitors Say
+      "A serene and beautiful place to connect with nature. My kids loved the guided tour!"
+      from Emily R.
+
+      "The workshops on conservation were enlightening and fun!"
+      from John D.
+
+      Interactive Map
+      Plan your visit with our interactive site map. Explore trails, picnic areas, and more.
+      View map button.
+
+      Become a Conservation Partner
+      Help us protect the environment. Become a member today and make a difference.
+      Join us button.
+
+      Copyright 2025 Woodland Conservation Area. All Rights Reserved.
+    `;
+  
+    if (tts.isSpeaking()) {
+      tts.stop();
+    } else {
+      tts.speak(text);
+    }
+  };
+
   return (
     <div
       className={`flex flex-col min-h-screen bg-cover bg-center transition-all duration-500`}
@@ -17,15 +69,25 @@ const Homepage = ({ dark }) => {
       }}
     >
       {/* Header Section */}
-      <header className="text-center text-white py-20 px-6">
-        <h1 className="text-6xl md:text-8xl font-bold mb-6 drop-shadow-md">
-          Woodland Conservation Area
-        </h1>
-        <p className="text-xl md:text-3xl max-w-3xl mx-auto drop-shadow-md">
+      <header className="text-white py-20 px-6">
+        <div className="flex items-center justify-between max-w-5xl mx-auto">
+          <h1 className="text-6xl md:text-7xl font-bold mb-6 drop-shadow-md">
+            Woodland Conservation Area
+          </h1>
+
+          <button
+            onClick={handleTextToSpeech}
+            className="ml-4 -mt-12 bg-yellow-400 text-gray-900 dark:bg-yellow-500 dark:text-gray-100 rounded-full p-5 focus:outline-none"
+          >
+            <IoVolumeHigh className="text-3xl" />
+          </button>
+        </div>
+
+        <p className="text-xl md:text-3xl max-w-3xl mx-auto text-center drop-shadow-md mt-6">
           Immerse yourself in nature's wonders. Discover. Learn. Protect.
         </p>
         <button
-          className="bg-green-500 hover:bg-green-400 text-white px-8 py-4 mt-6 rounded-full shadow-lg font-semibold transition"
+          className="bg-green-500 hover:bg-green-400 text-white px-8 py-4 mt-6 rounded-full shadow-lg font-semibold transition block mx-auto"
           onClick={() => alert("Explore Section Coming Soon!")}
         >
           Explore Now

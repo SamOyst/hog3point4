@@ -1,46 +1,61 @@
-// Author: Lakshay Bansal (A00467478)
+// Author: Lakshay Bansal (A00467478) Ben Anderson (A00473343)
 // Purpose: To display the Contact section of the Woodland Conservation website.
 
 import React, { useState, useEffect } from "react";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { IoVolumeHigh } from "react-icons/io5";
+import tts from "../assets/tts";
 
 const Contact = () => {
-  const [voices, setVoices] = useState([]);
 
-  useEffect(() => {
-    const loadVoices = () => {
-      const voicesList = window.speechSynthesis.getVoices();
-      setVoices(voicesList);
-    };
-
-    loadVoices();
-    window.speechSynthesis.onvoiceschanged = loadVoices;
-  }, []);
-
-  const speakText = (text) => {
-    const utterance = new SpeechSynthesisUtterance(text);
+const handleTextToSpeech = () => {
+  const text = `    
+    Get in touch.
     
-    // Select a soft female voice
-    const selectedVoice = voices.find(voice => voice.name.includes("Female") && voice.lang === "en-US");
-    if (selectedVoice) {
-      utterance.voice = selectedVoice;
-    }
-    
-    // Adjust pitch and rate for a softer tone
-    utterance.pitch = 1.2; // Slightly higher pitch
-    utterance.rate = 0.9; // Slightly slower rate
+    Have questions, feedback, or just want to say hello? 
+    We'd love to hear from you! Fill out the form below 
+    or connect with us through our social channels.
 
-    window.speechSynthesis.speak(utterance);
-  };
+    Input your name.
+    Input your email.
+    Input your message for us.
+
+    our contact information is,
+      phone number, +1 (234) 567 8910.
+
+      email, info at woodland conservation dot see aye.
+
+      location, Halifax, Nova Scotia.
+
+      follow us on facebook, instagram and x
+  `;
+
+    // Start speaking normally
+    if (tts.isSpeaking()) {
+      tts.stop(); // If speaking → stop immediately
+    } else {
+      tts.speak(text); // If not speaking → start speech
+    } 
+}
 
   return (
     <div
       id="contact"
       className="p-8 bg-gradient-to-br from-green-300 to-green-500 dark:from-green-800 dark:to-green-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center"
     >
+
       {/* Section Title */}
-      <h1 className="text-5xl font-bold mb-6 text-center">Get in Touch</h1>
+      <h1 className="text-5xl font-bold mb-6 text-center">Get in Touch
+              
+      {/* Text To Speech Button */}
+      <button
+        onClick={handleTextToSpeech}
+        className="ml-4 bg-yellow-400 text-gray-900 dark:bg-yellow-500 dark:text-gray-100 rounded-full p-5 focus:outline-none"
+        >
+        <IoVolumeHigh className="text-3xl" />
+      </button>
+      </h1>
+    
       <p className="text-lg text-center mb-8 max-w-2xl">
         Have questions, feedback, or just want to say hello? We'd love to hear from you! Fill out the form below or connect with us through our social channels.
       </p>
@@ -53,12 +68,6 @@ const Contact = () => {
             <div>
               <label htmlFor="name" className="block text-lg font-medium mb-2 items-center">
                 Name
-                <button
-                  onClick={() => speakText('Please enter a name')}
-                  className="ml-2 text-gray-900 dark:text-gray-100 focus:outline-none"
-                >
-                  <IoVolumeHigh className="text-2xl" />
-                </button>
               </label>
               <input
                 type="text"
@@ -72,12 +81,6 @@ const Contact = () => {
             <div>
               <label htmlFor="email" className="block text-lg font-medium mb-2 items-center">
                 Email
-                <button
-                  onClick={() => speakText('Please enter an email')}
-                  className="ml-2 text-gray-900 dark:text-gray-100 focus:outline-none"
-                >
-                  <IoVolumeHigh className="text-2xl" />
-                </button>
               </label>
               <input
                 type="email"
@@ -92,12 +95,6 @@ const Contact = () => {
           <div className="mb-6">
             <label htmlFor="message" className="block text-lg font-medium mb-2 items-center">
               Message
-              <button
-                onClick={() => speakText('Please enter a message')}
-                className="ml-2 text-gray-900 dark:text-gray-100 focus:outline-none"
-              >
-                <IoVolumeHigh className="text-2xl" />
-              </button>
             </label>
             <textarea
               id="message"
