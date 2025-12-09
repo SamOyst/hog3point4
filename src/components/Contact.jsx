@@ -36,6 +36,7 @@ const Contact = () => {
 
   return (
     <div
+      data-cy="title"
       id="contact"
       className="p-8 bg-gradient-to-br from-green-300 to-green-500 dark:from-green-800 dark:to-green-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center"
     >
@@ -46,7 +47,7 @@ const Contact = () => {
       </p>
 
       {/* Contact Form */}
-      <div className="bg-white dark:bg-darkerBlue rounded-lg shadow-lg p-6 md:p-10 max-w-4xl w-full">
+      <div data-cy="contactForm" className="bg-white dark:bg-darkerBlue rounded-lg shadow-lg p-6 md:p-10 max-w-4xl w-full">
         <form>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Name Input */}
@@ -109,6 +110,7 @@ const Contact = () => {
 
           {/* Submit Button */}
           <button
+            data-cy="submitButton"
             type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white text-lg font-bold py-3 px-6 rounded-md transition-all duration-300"
           >
