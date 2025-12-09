@@ -32,6 +32,12 @@ VITE_GOOGLE_MAPS_MAP_ID= MAP ID HERE
 
 ## CYPRESS TESTING
 
+to install cypress
+
+## `npm install cypress`
+
+to begin testing
+
 ## `npx cypress run` and `npx cypress run --component`
 
 These commands run E2E test and component tests. If you want ui testing (outside command line), use `npx cypress open`
