@@ -10,7 +10,7 @@ const products = [
     name: "Eco-Friendly Water Bottle",
     price: 29.99,
     desc: "Reusable BPA-free bottle for hikes and daily use.",
-    img: "src/assets/waterbottle.jpg", 
+    img: "src/assets/waterbottle.jpg",
     category: "On-the-Go",
     rating: 4.7,
     reviews: [
@@ -34,18 +34,7 @@ const products = [
     img: "src/assets/totebag.jpg",
     category: "Bags",
     rating: 4.5,
-    reviews: [
-      {
-        author: "Jordan",
-        date: "Sept 2025",
-        text: "Great for carrying field guides and snacks. The print looks really nice.",
-      },
-      {
-        author: "Sam",
-        date: "Sept 2025",
-        text: "Strong enough for groceries too. Happy to support conservation with this.",
-      },
-    ],
+    reviews: [],
   },
   {
     id: 3,
@@ -55,18 +44,7 @@ const products = [
     img: "src/assets/toothbrush.jpg",
     category: "Personal Care",
     rating: 4.6,
-    reviews: [
-      {
-        author: "Taylor",
-        date: "Aug 2025",
-        text: "Soft bristles and I feel better not using plastic brushes.",
-      },
-      {
-        author: "Riley",
-        date: "Aug 2025",
-        text: "Good value for a four-pack and fully compostable handles.",
-      },
-    ],
+    reviews: [],
   },
   {
     id: 4,
@@ -76,30 +54,17 @@ const products = [
     img: "src/assets/wildflower-seeds.jpg",
     category: "Home & Garden",
     rating: 4.8,
-    reviews: [
-      {
-        author: "Morgan",
-        date: "Jul 2025",
-        text: "Planted these in my yard and already seeing more bees and butterflies.",
-      },
-    ],
+    reviews: [],
   },
   {
     id: 5,
     name: "Recycled Paper Notebook",
     price: 9.99,
     desc: "Notebook made from 100% recycled paper.",
-
     img: "src/assets/notebook.jpg",
     category: "Stationery",
     rating: 4.3,
-    reviews: [
-      {
-        author: "Chris",
-        date: "Jun 2025",
-        text: "I use this for field notes during nature walks. Pages feel good quality.",
-      },
-    ],
+    reviews: [],
   },
   {
     id: 6,
@@ -109,13 +74,7 @@ const products = [
     img: "src/assets/travel-mug.jpg",
     category: "On-the-Go",
     rating: 4.9,
-    reviews: [
-      {
-        author: "Jamie",
-        date: "May 2025",
-        text: "Keeps my coffee warm for the whole visit. Love the simple design.",
-      },
-    ],
+    reviews: [],
   },
 ];
 
@@ -129,6 +88,19 @@ const categories = [
 ];
 
 export default function Ecommerce() {
+  // simple stored user name (for greeting)
+  const [userName, setUserName] = useState(
+    typeof window !== "undefined" ? localStorage.getItem("ecoUserName") || "" : ""
+  );
+
+  // account fields (used for both normal account + guest)
+  const [accountName, setAccountName] = useState("");
+  const [accountEmail, setAccountEmail] = useState("");
+  const [accountAddress, setAccountAddress] = useState("");
+  const [accountCity, setAccountCity] = useState("");
+  const [accountPostal, setAccountPostal] = useState("");
+  const [accountCountry, setAccountCountry] = useState("");
+
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [filter, setFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -144,7 +116,7 @@ export default function Ecommerce() {
   const [discountRate, setDiscountRate] = useState(0);
   const [promoMessage, setPromoMessage] = useState("");
 
-  // --- filtering ---
+  // filtering
   const filteredByCategory =
     filter === "All" ? products : products.filter((p) => p.category === filter);
 
@@ -157,7 +129,7 @@ export default function Ecommerce() {
     );
   });
 
-  // --- cart / wishlist logic ---
+  // cart / wishlist logic
   const handleAddToCart = (product) => {
     setCartItems((prev) => [...prev, product]);
   };
@@ -192,19 +164,56 @@ export default function Ecommerce() {
     }
   };
 
+  // Save account or guest info & show success
+  const saveAccountInfo = () => {
+    const trimmedName = accountName.trim();
+    if (!trimmedName) {
+      alert("Please enter at least your name to create an account.");
+      return;
+    }
+
+    const accountObj = {
+      name: trimmedName,
+      email: accountEmail.trim(),
+      address: accountAddress.trim(),
+      city: accountCity.trim(),
+      postal: accountPostal.trim(),
+      country: accountCountry.trim(),
+    };
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem("ecoUserName", trimmedName);
+      localStorage.setItem("ecoAccount", JSON.stringify(accountObj));
+    }
+
+    setUserName(trimmedName);
+    setShowProfile(false);
+
+    // clear fields
+    setAccountName("");
+    setAccountEmail("");
+    setAccountAddress("");
+    setAccountCity("");
+    setAccountPostal("");
+    setAccountCountry("");
+
+    alert("Account created successfully (demo only).");
+  };
+
   return (
     <div className="bg-gray-50 dark:bg-darkerBlue min-h-screen">
-      {/* top info strip right under main navbar */}
+      {/* top strip */}
       <div className="bg-green-900 text-white text-center dark:text-gray-900 text-xs md:text-sm py-2">
         Conscious giving starts here — eco products imagined to support the Woodland
         Conservation Area.
       </div>
 
-      {/* search + profile / wishlist / cart bar */}
+      {/* NAV BAR */}
       <div className="bg-green-800 text-white dark:text-gray-900">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4 px-4 py-3">
           <span className="font-semibold text-sm md:text-base">
             Woodland Eco Marketplace
+            {userName && <span className="ml-2 text-xs">Hi, {userName} 👋</span>}
           </span>
 
           <div className="flex-1 max-w-md">
@@ -256,7 +265,7 @@ export default function Ecommerce() {
         </div>
       </div>
 
-      {/* hero section */}
+      {/* HERO */}
       <section className="relative px-4 md:px-6 py-10 bg-emerald-600 text-white dark:bg-blue-950 overflow-hidden">
         <div className="max-w-6xl mx-auto flex flex-col items-center text-center gap-4">
           <p className="uppercase text-xs tracking-[0.3em] font-semibold">
@@ -266,8 +275,8 @@ export default function Ecommerce() {
             20% Off Sitewide
           </h1>
           <p className="text-sm md:text-base max-w-xl">
-            Explore eco-friendly essentials inspired by sustainable marketplaces.
-            Every “purchase” is imagined as support for trails, wildlife, habitat, and
+            Explore eco-friendly essentials inspired by sustainable marketplaces. Every
+            “purchase” is imagined as support for trails, wildlife, habitat, and
             education at the Woodland Conservation Area.
           </p>
           <button
@@ -278,7 +287,6 @@ export default function Ecommerce() {
           </button>
         </div>
 
-        {/* 15% badge bottom-left of hero */}
         <div className="absolute left-4 bottom-4">
           <button
             type="button"
@@ -289,7 +297,7 @@ export default function Ecommerce() {
         </div>
       </section>
 
-      {/* benefits row */}
+      {/* BENEFITS */}
       <section className="px-4 md:px-6 py-6 bg-gray-50 border-b border-gray-200">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
           <div className="bg-white rounded-xl shadow-sm p-4 flex items-start gap-3">
@@ -331,7 +339,7 @@ export default function Ecommerce() {
         </div>
       </section>
 
-      {/* products */}
+      {/* PRODUCTS */}
       <section id="products" className="px-4 md:px-6 py-10">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
@@ -340,8 +348,8 @@ export default function Ecommerce() {
                 Featured Eco Products
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Choose items that fit your lifestyle and help care for the woodland at the
-                same time.
+                Choose items that fit your lifestyle and help care for the woodland at
+                the same time.
               </p>
             </div>
 
@@ -350,7 +358,8 @@ export default function Ecommerce() {
                 Cart: <span className="font-semibold">{cartItems.length}</span> items
               </span>
               <span>
-                Wishlist: <span className="font-semibold">{wishlistItems.length}</span> items
+                Wishlist:{" "}
+                <span className="font-semibold">{wishlistItems.length}</span> items
               </span>
             </div>
           </div>
@@ -377,7 +386,7 @@ export default function Ecommerce() {
             {visibleProducts.map((p) => (
               <div
                 key={p.id}
-                className="bg-white dark:bg-blue-950 rounded-xl shadow-md p-4 hover:shadow-xl hover:-translate-y-1 transition-transform transition-shadow duration-200 flex flex-col"
+                className="bg-white dark:bg-blue-950 rounded-xl shadow-md p-4 hover:shadow-xl hover:-translate-y-1 transition-transform duration-200 flex flex-col"
               >
                 <div className="w-full h-44 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden mb-3">
                   <img
@@ -394,16 +403,22 @@ export default function Ecommerce() {
                 <p className="text-xs uppercase text-green-700 font-semibold mb-1">
                   {p.category}
                 </p>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 flex-1">{p.desc}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 flex-1">
+                  {p.desc}
+                </p>
 
                 <div className="flex items-center text-sm text-yellow-500 mb-2">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <span key={i}>{i < Math.round(p.rating) ? "★" : "☆"}</span>
                   ))}
-                  <span className="ml-2 text-gray-600 dark:text-gray-400">{p.rating.toFixed(1)}</span>
+                  <span className="ml-2 text-gray-600 dark:text-gray-400">
+                    {p.rating.toFixed(1)}
+                  </span>
                 </div>
 
-                <p className="text-xl font-bold mb-3 dark:text-gray-400">${p.price.toFixed(2)}</p>
+                <p className="text-xl font-bold mb-3 dark:text-gray-400">
+                  ${p.price.toFixed(2)}
+                </p>
 
                 <div className="space-y-2">
                   <button
@@ -431,14 +446,14 @@ export default function Ecommerce() {
             ))}
           </div>
 
-          {/* link to checkout page */}
+          {/* link to checkout page – passes cart + discount via router state */}
           <div className="mt-10 text-center">
             <p className="text-gray-700 dark:text-gray-400 mb-3">
-              When this site is fully implemented, checkout would summarize your cart and
-              process payment securely.
+            “This is just a soft preview of the page — the full version with more features is coming soon. Stay tuned 😁”
             </p>
             <Link
               to="/checkout"
+              state={{ cartItems, discountRate }}
               className="inline-block bg-green-700 text-white px-6 py-2 rounded-lg hover:bg-green-800 text-sm md:text-base"
             >
               View Checkout Page
@@ -447,7 +462,7 @@ export default function Ecommerce() {
         </div>
       </section>
 
-      {/* profile modal */}
+      {/* PROFILE MODAL – account + guest signup */}
       {showProfile && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40">
           <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 p-6 relative">
@@ -459,25 +474,88 @@ export default function Ecommerce() {
             </button>
             <h2 className="text-xl font-bold mb-2">Create an account</h2>
             <p className="text-sm text-gray-600 mb-4">
-              In a full version, this section would connect to Google or email sign-in.
+              By registering for an account, you agree with Woodland Conservation&apos;s
+              privacy practices. Your personal details are used only for this project
+              preview and are not shared with third parties.
             </p>
-            <button className="w-full mb-3 flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 text-sm hover:bg-gray-50">
-              <span>Continue with Google</span>
+
+            <div className="space-y-2 mb-4 text-sm">
+              <input
+                type="text"
+                placeholder="Full name"
+                value={accountName}
+                onChange={(e) => setAccountName(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-1.5"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={accountEmail}
+                onChange={(e) => setAccountEmail(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-1.5"
+              />
+              <input
+                type="text"
+                placeholder="Street address"
+                value={accountAddress}
+                onChange={(e) => setAccountAddress(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-1.5"
+              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="City"
+                  value={accountCity}
+                  onChange={(e) => setAccountCity(e.target.value)}
+                  className="flex-1 border border-gray-300 rounded-lg px-3 py-1.5"
+                />
+                <input
+                  type="text"
+                  placeholder="Postal code"
+                  value={accountPostal}
+                  onChange={(e) => setAccountPostal(e.target.value)}
+                  className="w-28 border border-gray-300 rounded-lg px-3 py-1.5"
+                />
+              </div>
+              <input
+                type="text"
+                placeholder="Country"
+                value={accountCountry}
+                onChange={(e) => setAccountCountry(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-1.5"
+              />
+            </div>
+
+            {/* normal account */}
+            <button
+              onClick={saveAccountInfo}
+              className="w-full mb-3 bg-green-700 text-white rounded-lg py-2 text-sm hover:bg-green-800"
+            >
+              Create account
             </button>
+
+            {/* Google login opens Google in new tab */}
+            <a
+              href="https://accounts.google.com/signin"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full mb-3 flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2 text-sm hover:bg-gray-50"
+            >
+              <span>Login with Google</span>
+            </a>
+
+            {/* guest signup uses same info */}
             <button
               className="w-full border border-gray-300 rounded-lg py-2 text-sm hover:bg-gray-50"
-              onClick={() => {
-                setShowProfile(false);
-                setShowCart(true); // continue as guest -> go to cart
-              }}
+              onClick={saveAccountInfo}
             >
-              Continue as guest
+              Sign up as guest
             </button>
           </div>
         </div>
       )}
 
-      {/* cart modal with promo code */}
+      {/* CART MODAL */}
       {showCart && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40">
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 p-6 relative">
@@ -550,8 +628,8 @@ export default function Ecommerce() {
                 </div>
 
                 <p className="mt-3 text-xs text-gray-500">
-                  In a full implementation, clicking “Proceed to Checkout” would send this
-                  order to a real payment system.
+                  Just for project preview purposes. This is not a real payment system —
+                  don&apos;t worry, we will not steal your credit card info :D
                 </p>
 
                 <div className="mt-4 flex justify-end gap-2">
@@ -563,6 +641,7 @@ export default function Ecommerce() {
                   </button>
                   <Link
                     to="/checkout"
+                    state={{ cartItems, discountRate }}
                     className="px-4 py-2 text-sm rounded-lg bg-green-700 text-white hover:bg-green-800"
                     onClick={() => setShowCart(false)}
                   >
@@ -575,7 +654,7 @@ export default function Ecommerce() {
         </div>
       )}
 
-      {/* wishlist modal */}
+      {/* WISHLIST MODAL */}
       {showWishlist && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40">
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 p-6 relative">
@@ -620,7 +699,7 @@ export default function Ecommerce() {
         </div>
       )}
 
-      {/* product review modal */}
+      {/* PRODUCT REVIEW MODAL */}
       {selectedProduct && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40">
           <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full mx-4 p-6 relative">

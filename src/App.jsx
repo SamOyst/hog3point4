@@ -19,6 +19,7 @@ import Gallery from './components/gallery';
 import Ecosystem from './components/Ecosystem.jsx';
 import NaturalBurial from './components/NaturalBurial';
 import Ecommerce from "./components/Ecommerce";
+import Checkout from './components/Checkout';
 import Contact from './components/Contact';
 import Admin from './components/Admin';
 
@@ -60,6 +61,7 @@ function App() {
           <Route path="/ecommerce" element={<Ecommerce />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
 
       </div>
