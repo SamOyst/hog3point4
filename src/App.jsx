@@ -1,5 +1,13 @@
-//Author: Marko Ostrovitsa(A00448932), Sam Oystreck (A00478278)
-//Purpose of the file is to diplay all the components together in the website
+/**
+ * @file App.jsx
+ * @authors
+ *  Marko Ostrovitsa (A00448932),
+ *  Sam Oystreck (A00478278),
+ *  Daniel Johnston (A00450815),
+ *  ChatGPT
+ * @description Root React component responsible for rendering the full application,
+ * handling global dark mode state, and defining all routing between pages.
+ */
 
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -7,45 +15,56 @@ import Navigation from './components/Navigation';
 import Homepage from './components/Homepage';
 import About from './components/About';
 import SiteMap from './components/Sitemap';
-import Contact from './components/Contact'; // Importing Contact component
 import Gallery from './components/gallery';
-import Flora from './components/flora';
+import Ecosystem from './components/Ecosystem.jsx';
 import NaturalBurial from './components/NaturalBurial';
 import Ecommerce from "./components/Ecommerce";
+import Contact from './components/Contact';
 import Admin from './components/Admin';
 
-// App component definition
+/**
+ * Main App component that initializes routing and manages dark mode state.
+ *
+ * @returns {JSX.Element} The rendered application.
+ */
 function App() {
-  const [dark, setDark] = useState(false); // State to manage dark mode
+  const [dark, setDark] = useState(false); // Controls global dark mode
 
-  // Function to toggle dark mode
+  /**
+   * Toggles the application's dark mode theme.
+   *
+   * @function
+   * @returns {void}
+   */
   const darkModeHandler = () => {
     setDark(!dark);
     document.body.classList.toggle("dark");
   };
 
   return (
-    // Router component to handle navigation
     <Router>
-      {/* Main container with dynamic background color based on dark mode */}
+      {/* Background wrapper that updates color based on dark mode */}
       <div className="bg-yellow-100 dark:bg-blue-900 min-h-screen">
-        {/* Navigation component with dark mode toggle handler */}
+        
+        {/* Navigation bar, receives dark mode props */}
         <Navigation toggleDarkMode={darkModeHandler} dark={dark} />
-        {/* Routes component to handle different pages */}
+
+        {/* Route configuration */}
         <Routes>
-          <Route path="/" element={<Homepage dark={dark} />} /> {/* Route for Homepage component */}
-          <Route path="/about" element={<About />} /> {/* Route for About component */}
-          <Route path="/sitemap" element={<SiteMap />} /> {/* Route for SiteMap component */}
-          <Route path="/contact" element={<Contact />} /> {/* Route for Contact component */}
-          <Route path="/gallery" element={<Gallery />}/>
-          <Route path="/flora" element={<Flora />}/>
-          <Route path="/NaturalBurial" element={<NaturalBurial />}/>
+          <Route path="/" element={<Homepage dark={dark} />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/sitemap" element={<SiteMap />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/ecosystem" element={<Ecosystem />} />
+          <Route path="/naturalburial" element={<NaturalBurial />} />
           <Route path="/ecommerce" element={<Ecommerce />} />
-          <Route path="/Admin" element={<Admin />}/>
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
+
       </div>
     </Router>
   );
 }
 
-export default App; // Exporting the App component as default
+export default App;
