@@ -141,6 +141,7 @@ function SiteMap() {
       <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
         {/* Header text */}
         <div
+          data-cy="header"
           style={{
             position: "absolute",
             top: 80,
@@ -164,6 +165,7 @@ function SiteMap() {
 
         {/* Use my location button */}
         <button
+          data-cy="buttonLocation"
           onClick={handleUseMyLocation}
           style={{
             position: "absolute",
