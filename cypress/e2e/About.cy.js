@@ -3,7 +3,7 @@
 describe('About page E2E', () => {
   beforeEach(() => {
     // change this route if your app uses a different path
-    cy.visit('https:localhost:4000/about/')
+    cy.visit('/about/')
   })
 
   it('renders heading and image', () => {
@@ -20,9 +20,9 @@ describe('About page E2E', () => {
     cy.get('[data-cy="accordion-content-floraFauna"]').should('be.visible')
 
     // check that lists exist (if data present)
-    cy.get('[data-cy="fauna-list"]').should('exist')
-    cy.get('[data-cy="flora-list"]').should('exist')
-    cy.get('[data-cy="fungi-list"]').should('exist')
+    cy.get('[data-cy="fauna-section"]').should('exist')
+    cy.get('[data-cy="flora-section"]').should('exist')
+    cy.get('[data-cy="fungi-section"]').should('exist')
 
     // close
     cy.get('[data-cy="accordion-toggle-floraFauna"]').click()
