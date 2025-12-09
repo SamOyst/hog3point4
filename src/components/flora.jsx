@@ -65,7 +65,7 @@ const FloraFaunaFungi = () => {
   const visibleData = filteredData.slice(0, visibleCount);
 
   return (
-    <div className="p-8 bg-gray-100 dark:bg-gray-900 min-h-screen">
+    <div data-cy="title" className="p-8 bg-gray-100 dark:bg-gray-900 min-h-screen">
       {/* Main container with padding, background color, and full screen height */}
       <h1 className="text-4xl font-bold text-center mb-10 text-gray-900 dark:text-gray-100">
         Explore the Woodland's Flora, Fauna, and Fungi
@@ -73,7 +73,7 @@ const FloraFaunaFungi = () => {
       </h1>
 
       {/* Search Bar */}
-      <div className="max-w-md mx-auto mb-8 flex gap-2">
+      <div data-cy="searchBar" className="max-w-md mx-auto mb-8 flex gap-2">
         <input
           type="text"
           placeholder="Search by name or description..."
@@ -90,7 +90,7 @@ const FloraFaunaFungi = () => {
         </button>
       </div>
 
-<h1 className="text-4xl p-8 text-center mb-10 text-gray-900 dark:text-gray-100">
+<h1 data-cy="eco" className="text-4xl p-8 text-center mb-10 text-gray-900 dark:text-gray-100">
         The Ecosystem of The St. Margaret's Bay Woodland Conservation Area
         <p className="text-2xl pt-4 mx-auto text-center w-4/5">
           The St. Margaret’s Bay Area Woodland Conservation ecosystem is home 
@@ -101,7 +101,7 @@ const FloraFaunaFungi = () => {
         </p>
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div data-cy="images" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {visibleData.map((item, index) => (
           <div
             key={index} 

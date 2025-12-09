@@ -3,7 +3,6 @@
 //          OpenAI ChatGPT
 // Purpose: This file holds the workings for a gallery
 
-
 //imports
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -163,7 +162,7 @@ const Gallery = () => {
       </p>
 
       {/* Drag and drop box */}
-      <div
+      <div data-cy="dragDropBox"
         {...getRootProps()}
         className={`border-4 border-dashed rounded-xl p-16 mb-8 text-center cursor-pointer transition 
     ${isDragActive ? "border-blue-500 bg-blue-100" : "border-gray-400 bg-gray-200"} 

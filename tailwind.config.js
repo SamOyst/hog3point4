@@ -10,6 +10,7 @@ module.exports = {
         darkBlue: '#001f3f',
         darkerBlue: '#00122a',
         darkBrown: '#4B2E16', // Define a custom dark brown color
+        lightBrown: '#D2B48C',
       },
     },
   },

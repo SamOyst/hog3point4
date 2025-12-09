@@ -44,13 +44,13 @@ const NaturalBurial = () => {
   return (
     <div className="p-8 bg-white dark:bg-darkerBlue text-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center">
       {/* Header Section */}
-      <div className="flex items-center justify-center w-full">
+      <div data-cy="header" className="flex items-center justify-center w-full">
         <h1 className="text-4xl font-bold text-center mb-5 text-gray-900 dark:text-gray-100">
           Natural Burial at St. Margaret’s Bay Area Woodland Conservation Site
         </h1>
       </div>
       
-      <div>
+      <div data-cy="desc">
         <p className="text-lg flex p-8 mb-5">
           Natural burial is an eco-friendly approach to burial where the body is returned to the earth with minimal environmental impact, 
           using biodegradable materials and without harmful chemicals.
@@ -64,7 +64,7 @@ const NaturalBurial = () => {
         </p>
       </div>
 
-      <div className="bg-green-500 dark:bg-green-800 rounded-xl p-5 w-full">
+      <div data-cy="mainDiv" className="bg-green-500 dark:bg-green-800 rounded-xl p-5 w-full">
         <p className="text-2xl flex items-center justify-center w-full m-5 text-center">
           Options for Burial Material
         </p>

@@ -1,10 +1,7 @@
 // Authors:
-// Bhanu Prakash(A00468530) - Responsible for handling the 'Get Directions' functionality.
-// Cole Turner (A00469026) - Responsible for map interction, UI design, TailWind CSS.
-// Ben Anderson (A00473343) - Text-to-Speech
+// Denzyl ALbarracin (A00473792)
 // Purpose: This file represents a site map component for the conservation area. 
 
-// src/components/SiteMap.jsx
 import React, { useState } from "react";
 import {
   APIProvider,
@@ -22,7 +19,7 @@ import mapData from "../assets/map.json";
 import tts from "../assets/tts";
 
 const DEFAULT_CENTER = { lat: 44.6247822, lng: -63.920578 };
-
+// Points of Interest data should be moved to a separate JSON or data file
 const pointsOfInterest = [
   {
     id: 1,
@@ -134,15 +131,18 @@ function SiteMap() {
       ))}
     </>
   );
-
+  // TO FUTURE DEVELOPERS: REPLACE API KEY WITH YOUR OWN AND GENERATE MAP ID AND REPLACE IT IN THE <Map> COMPONENT BELOW
+  // Visit https://developers.google.com/maps/documentation/javascript/get-api-key to get an API key
+  // MUST CREATE A GOOGLE MAPS ACCOUNT AND ENABLE BILLING TO GET AN API KEY there is 90 days free trial with like $200 credit
   return (
     <APIProvider
-      apiKey={"AIzaSyCuH_8PIdOnvsmaCPzmFzPRUH6VHzo4a-0"}
+      apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
       onLoad={() => console.log("Maps API has loaded.")}
     >
       <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
         {/* Header text */}
         <div
+          data-cy="header"
           style={{
             position: "absolute",
             top: 80,
@@ -166,6 +166,7 @@ function SiteMap() {
 
         {/* Use my location button */}
         <button
+          data-cy="buttonLocation"
           onClick={handleUseMyLocation}
           style={{
             position: "absolute",
@@ -244,13 +245,13 @@ function SiteMap() {
           </div>
         )}
 
-        {/* The map itself */}
+        {/* The map itself CHANGE MAP ID*/}
         <Map
           style={{ width: "100%", height: "100%" }}
           center={mapCenter}
           zoom={mapZoom}
           // mapTypeId="hybrid"
-          mapId="f010a907a8acdb54c13b6e8a"
+          mapId= {import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
           gestureHandling="greedy"
           onCameraChanged={(ev) => {
             const { center, zoom } = ev.detail;

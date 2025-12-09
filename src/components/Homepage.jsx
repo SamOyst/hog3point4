@@ -60,7 +60,7 @@ const Homepage = ({ dark }) => {
   };
 
   return (
-    <div
+    <div data-cy="header"
       className={`flex flex-col min-h-screen bg-cover bg-center transition-all duration-500`}
       style={{
         backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), url(${
@@ -98,7 +98,7 @@ const Homepage = ({ dark }) => {
       <div className="flex-1 text-gray-900 bg-white/80 py-12 px-6">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
           {/* Interactive Cards */}
-          <div className="text-center bg-green-100/70 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+          <div data-cy="iCards" className="text-center bg-green-100/70 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
             <FaTree className="text-green-600 text-5xl mx-auto mb-4" />
             <h2 className="text-2xl font-semibold mb-4">Explore Nature</h2>
             <p className="text-lg">
@@ -141,7 +141,7 @@ const Homepage = ({ dark }) => {
       </div>
 
       {/* Quick Facts Section */}
-      <div className="bg-green-600/90 text-white py-16 px-8">
+      <div data-cy="facts" className="bg-green-600/90 text-white py-16 px-8">
         <h2 className="text-4xl font-bold text-center mb-6">Quick Facts</h2>
         <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 text-center">
           <div>
@@ -160,7 +160,7 @@ const Homepage = ({ dark }) => {
       </div>
 
       {/* Visitor Reviews Section */}
-      <div className="py-12 px-6 bg-white">
+      <div data-cy="reviews" className="py-12 px-6 bg-white">
         <h2 className="text-4xl font-bold text-center mb-8">What Visitors Say</h2>
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
           <blockquote className="bg-gray-100 p-6 rounded-lg shadow-md">
