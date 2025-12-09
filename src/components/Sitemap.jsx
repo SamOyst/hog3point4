@@ -16,6 +16,7 @@ import well from "../assets/water-well.png";
 import sitting from "../assets/sitting.png";
 import birch from "../assets/birch.png";
 import mapData from "../assets/map.json";
+import tts from "../assets/tts";
 
 const DEFAULT_CENTER = { lat: 44.6247822, lng: -63.920578 };
 // Points of Interest data should be moved to a separate JSON or data file
@@ -264,8 +265,17 @@ function SiteMap() {
           {/* POI markers with click interaction */}
           <PoiMarkers
             pois={pointsOfInterest}
-            onPoiClick={setSelectedPoi}
-          />
+            onPoiClick={(poi) => {
+              setSelectedPoi(poi);
+
+            if (tts.isSpeaking()) {
+              tts.stop();
+            return;
+            }
+
+        tts.speak(poi.clickText);
+  }}
+/>
         </Map>
       </div>
     </APIProvider>
