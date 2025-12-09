@@ -13,22 +13,13 @@ import data from '../data/EcosystemData';
 import outlookImage from "../assets/outlook.jpg";
 import { IoVolumeHigh, IoVolumeOff } from "react-icons/io5";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import tts from "../assets/tts";
+// removed unused tts import
 
-/**
- * About Component
- *
- * Renders the About page, including:
- * - Speech synthesis for accessibility
- * - Species lists (flora / fauna / fungi)
- * - Accordion UI sections
- *
- * @component
- * @returns {JSX.Element}
- */
 const About = () => {
-
   const [isPaused, setIsPaused] = useState(false);
+
+  // ADDED: voices state used by the useEffect and handleTextToSpeech
+  const [voices, setVoices] = useState([]);
 
   const [accordionState, setAccordionState] = useState({
     floraFauna: false,
@@ -38,69 +29,81 @@ const About = () => {
   });
 
   const floraContentRef = useRef(null);
+  const speechSynthesisRef = useRef(null);
+  const textRef = useRef("");
 
   /**
    * Loads available voices for speech synthesis and updates component state.
-   *
-   * @function loadVoices
-   * @returns {void}
    */
   useEffect(() => {
     const loadVoices = () => {
-      const voicesList = window.speechSynthesis.getVoices();
+      // getVoices may return [] initially; set whatever is available
+      const voicesList = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
       setVoices(voicesList);
     };
 
     loadVoices();
-    window.speechSynthesis.onvoiceschanged = loadVoices;
+    // attach event if available
+    if (window.speechSynthesis) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
   }, []);
 
   /**
    * Handles text-to-speech behavior.
-   *
-   * - If audio is playing → pause it
-   * - If paused → resume it
-   * - If not yet played → initialize speech, select a voice, speak
-   *
-   * @function handleTextToSpeech
-   * @returns {void}
    */
   const handleTextToSpeech = () => {
+    // pause/resume logic when an utterance exists
     if (speechSynthesisRef.current && !isPaused) {
       window.speechSynthesis.pause();
       setIsPaused(true);
-    } else if (speechSynthesisRef.current && isPaused) {
+      return;
+    }
+
+    if (speechSynthesisRef.current && isPaused) {
       window.speechSynthesis.resume();
       setIsPaused(false);
-    } else {
-      textRef.current = `Welcome to the St. Margaret’s Bay Area Woodland Conservation Site.`;
-      const utterance = new SpeechSynthesisUtterance(textRef.current);
-
-      const selectedVoice = voices.find(
-        (voice) => voice.name.includes("Female") && voice.lang === "en-US"
-      );
-      if (selectedVoice) utterance.voice = selectedVoice;
-
-      utterance.pitch = 1.4;
-      utterance.rate = 0.9;
-
-      speechSynthesisRef.current = utterance;
-      window.speechSynthesis.speak(utterance);
-
-      utterance.onend = () => {
-        speechSynthesisRef.current = null;
-        setIsPaused(false);
-      };
+      return;
     }
+
+    // otherwise create and speak a new utterance
+    textRef.current = `Welcome to the St. Margaret’s Bay Area Woodland Conservation Site.`;
+    const utterance = new SpeechSynthesisUtterance(textRef.current);
+
+    // try to pick a US English female voice, but fallback gracefully
+    let selectedVoice = voices.find(
+      (voice) =>
+        voice.lang?.toLowerCase().startsWith("en") &&
+        /female/i.test(voice.name || voice.voiceURI || "")
+    );
+
+    if (!selectedVoice) {
+      // fallback: any en-US or en voice
+      selectedVoice = voices.find((v) => v.lang?.toLowerCase().startsWith("en-us")) || voices.find((v) => v.lang?.toLowerCase().startsWith("en"));
+    }
+
+    if (selectedVoice) utterance.voice = selectedVoice;
+
+    utterance.pitch = 1.4;
+    utterance.rate = 0.9;
+
+    speechSynthesisRef.current = utterance;
+    window.speechSynthesis.speak(utterance);
+    setIsPaused(false);
+
+    utterance.onend = () => {
+      speechSynthesisRef.current = null;
+      setIsPaused(false);
+    };
+
+    utterance.onerror = () => {
+      // defensive: clear ref on error
+      speechSynthesisRef.current = null;
+      setIsPaused(false);
+      console.error("SpeechSynthesisUtterance error");
+    };
   };
 
-  /**
-   * Toggles a specific accordion section open or closed.
-   *
-   * @function toggleAccordion
-   * @param {string} section - Section key: "floraFauna", "heritageLegacy", "mission", or "vision".
-   * @returns {void}
-   */
   const toggleAccordion = (section) => {
     setAccordionState((prev) => ({
       ...prev,
@@ -108,11 +111,6 @@ const About = () => {
     }));
   };
 
-  /**
-   * Extracted species lists.
-   * @constant
-   * @type {string[]}
-   */
   const floraNames = Array.from(new Set(
     data
       .filter((i) => i.category?.toLowerCase().includes("flora"))
@@ -184,7 +182,7 @@ const About = () => {
             ref={floraContentRef}
             data-cy="accordion-content-floraFauna"
             className={`overflow-hidden transition-[max-height] duration-500 ease-in-out`}
-            style={{ maxHeight: accordionState.floraFauna ? undefined : "0px" }}
+            style={{ maxHeight: accordionState.floraFauna ? "1000px" : "0px" }}
           >
             <div className="p-4 text-2xl bg-gray-50 dark:bg-gray-900 rounded-b-lg shadow-md">
               <p className="mt-4">

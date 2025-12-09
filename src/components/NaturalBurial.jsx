@@ -42,10 +42,10 @@ const NaturalBurial = () => {
 
 
   return (
-    <div className="p-8 bg-white dark:bg-darkerBlue text-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center">
+    <div className="p-8 bg-yellow-100 dark:bg-darkerBlue text-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center">
       {/* Header Section */}
       <div data-cy="header" className="flex items-center justify-center w-full">
-        <h1 className="text-4xl font-bold text-center mb-5 text-gray-900 dark:text-gray-100">
+        <h1 className="text-4xl text-center mb-5 text-gray-900 dark:text-gray-100">
           Natural Burial at St. Margaret’s Bay Area Woodland Conservation Site
         </h1>
       </div>
@@ -70,10 +70,10 @@ const NaturalBurial = () => {
         </p>
         <table className=" table-fixed text-center w-full border-separate border-spacing-5">
           <tr>
-            <td className="bg-white dark:bg-darkerBlue rounded-lg p-5 m-10 leading-loose text-xl">Pinebox<img 
+            <td className="bg-yellow-100 dark:bg-darkerBlue rounded-lg p-5 m-10 leading-loose text-xl">Pinebox<img 
               src="src\assets\pinebox.jpg" alt="Pinebox Image" className="mx-auto rounded-lg w-[80%]"></img><br></br>
               A biodegradable box with limited affect on the surrounding environment</td>
-            <td className="bg-white dark:bg-darkerBlue rounded-lg m-10 leading-loose text-xl">Shroud<img 
+            <td className="bg-yellow-100 dark:bg-darkerBlue rounded-lg m-10 leading-loose text-xl">Shroud<img 
               src="src\assets\burialshroud.png" alt="Shroud Image" className="mx-auto rounded-lg w-[75%]"></img><br></br>
               A simple biodegradable cloth wrapping</td>
           </tr>
@@ -83,11 +83,11 @@ const NaturalBurial = () => {
         </p>
         <table className="w-full table-fixed text-center border-separate border-spacing-5">
           <tr>
-            <td className="bg-white dark:bg-darkerBlue rounded-lg p-5 leading-loose">Small Bush<img 
+            <td className="bg-yellow-100 dark:bg-darkerBlue rounded-lg p-5 leading-loose">Small Bush<img 
               src="src\assets\bushmarking.jpg" alt="Bush Marker Image" className="mx-auto rounded-lg w-[80%]"></img></td>
-            <td className="bg-white dark:bg-darkerBlue rounded-lg m-10 leading-loose">Wooden Sign<img 
+            <td className="bg-yellow-100 dark:bg-darkerBlue rounded-lg m-10 leading-loose">Wooden Sign<img 
               src="src\assets\signmarking.jpg" alt="Sign Image" className="mx-auto rounded-lg w-[75%]"></img></td>  
-            <td className="bg-white dark:bg-darkerBlue rounded-lg m-10 leading-loose">GPS Coordinates<img 
+            <td className="bg-yellow-100 dark:bg-darkerBlue rounded-lg m-10 leading-loose">GPS Coordinates<img 
               src="src\assets\gps.jpeg" alt="GPS Image" className="mx-auto rounded-lg w-[82%]"></img></td>
           </tr>
         </table>
