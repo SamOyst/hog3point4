@@ -140,7 +140,7 @@ const ecosystem = () => {
       {/* ============================================
         Header + Intro Paragraph
        ============================================ */}
-      <h1 className="text-4xl p-8 text-center text-black dark:text-yellow-100">
+      <h1 className="text-4xl p-8 text-center text-black dark:text-yellow-100" data-cy="head">
         The Ecosystem of the St. Margaret's Bay Woodland Conservation Area
 
         <p className="text-2xl pt-4 text-center text-black dark:text-yellow-100">
@@ -162,7 +162,7 @@ const ecosystem = () => {
       *  @state activeSearch — applied filter when clicking Search
       *  @function handleSearchClick — applies searchTerm
       */}
-      <div className="max-w-md mx-auto mb-8 flex gap-3">
+      <div className="max-w-md mx-auto mb-8 flex gap-3" data-cy="searchBar">
         <input
           type="text"
           placeholder="Search by name or category..."
@@ -197,7 +197,7 @@ const ecosystem = () => {
       *  @var visibleData — array of currently displayed items
       *  @function setSelectedItem — opens modal with clicked item
       */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-cy="images">
         {visibleData.map((item, index) => (
           <div
             key={index}
