@@ -16,7 +16,7 @@ import Homepage from './components/Homepage';
 import About from './components/About';
 import SiteMap from './components/Sitemap';
 import Gallery from './components/gallery';
-import Ecosystem from './components/Ecosystem.jsx';
+import Ecosystem from './components/Ecosystem;
 import NaturalBurial from './components/NaturalBurial';
 import Ecommerce from "./components/Ecommerce";
 import Checkout from './components/Checkout';
