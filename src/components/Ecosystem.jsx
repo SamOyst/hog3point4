@@ -5,6 +5,7 @@
  *  Cole Turner (A00469026),
  *  Bahnu Prakash (A00468530),
  *  Daniel Johnston (A00450815)
+ * ChatGPT
  * @description React component that renders the ecosystem page, including search,
  * infinite scrolling, and item detail modals.
  */
