@@ -1,8 +1,9 @@
-// Author: Danesh Elahi (A00479230)
+// Author: Danesh Elahi (A00479230) Ben Anderson (A00473343)
 // Purpose: To display the Ecommerce section of the Woodland Conservation website.
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FiUser, FiHeart, FiShoppingCart } from "react-icons/fi";
+import { FiUser, FiHeart, FiShoppingCart, FiVolume2 } from "react-icons/fi";
+import tts from "../assets/tts";
 
 const products = [
   {
@@ -227,6 +228,18 @@ export default function Ecommerce() {
           </div>
 
           <div className="flex items-center gap-4 text-xl">
+              <button
+                type="button"
+                className="hover:text-green-200"
+                aria-label="Read Page Aloud"
+                onClick={() =>
+                tts.toggleSpeak(
+                  "Welcome to the Woodland Eco Marketplace. Explore eco friendly essentials designed to support conservation efforts."
+                  )
+                }
+              >
+            <FiVolume2 />
+            </button>            
             <button
               type="button"
               className="hover:text-green-200"
