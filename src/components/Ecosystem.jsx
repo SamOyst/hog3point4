@@ -5,12 +5,15 @@
  *  Cole Turner (A00469026),
  *  Bahnu Prakash (A00468530),
  *  Daniel Johnston (A00450815)
+ *  Ben Anderson (A00473343)
  * @description React component that renders the ecosystem page, including search,
  * infinite scrolling, and item detail modals.
  */
 
 import React, { useState, useEffect, useRef } from 'react';
 import data from '../data/EcosystemData'; // Importing images and info from data file
+import tts from '../assets/tts';
+import { IoVolumeHigh } from "react-icons/io5";
 
 /**
  * Ecosystem Component
@@ -138,10 +141,34 @@ const ecosystem = () => {
     <div className="p-8 bg-yellow-100 dark:bg-gray-900">
 
       {/* ============================================
-        Header + Intro Paragraph
-       ============================================ */}
-      <h1 className="text-4xl p-8 text-center text-black dark:text-yellow-100" data-cy="head">
-        The Ecosystem of the St. Margaret's Bay Woodland Conservation Area
+        Header + Intro Paragraph + TTS BUTTON
+      ============================================ */}
+      <div className="text-center flex flex-col items-center">
+
+        <div className="flex items-center justify-center">
+          <h1
+            className="text-4xl p-8 text-center text-black dark:text-yellow-100"
+            data-cy="head"
+          >
+            The Ecosystem of the St. Margaret's Bay Woodland Conservation Area
+          </h1>
+
+          {/* TTS Button — title + paragraph text */}
+          <button
+            onClick={() =>
+              tts.toggleSpeak(
+                "The Ecosystem of the St. Margaret's Bay Woodland Conservation Area. " +
+                "The Woodland is home to a vast and diverse ecosystem filled with many different species. " +
+                "Its terrain is also unique, featuring a mix of wetlands and forest. " +
+                "Use the search bar to explore species within the Woodland. " +
+                "Click on an image to learn more."
+              )
+            }
+            className="ml-4 bg-yellow-400 text-gray-900 dark:bg-yellow-500 dark:text-gray-100 rounded-full p-5 focus:outline-none"
+          >
+            <IoVolumeHigh className="text-3xl" />
+          </button>
+        </div>
 
         <p className="text-2xl pt-4 text-center text-black dark:text-yellow-100">
           The Woodland is home to a vast and diverse ecosystem filled with many different species.
@@ -149,19 +176,11 @@ const ecosystem = () => {
           Use the search bar to explore species within the Woodland.
           Click on an image to learn more.
         </p>
-      </h1>
+      </div>
 
       {/* ============================================
         Search Bar
-       ============================================ */}
-      {/**
-      * @section Search Bar
-      * @description Allows users to type a search term and apply it by clicking the Search button.
-      * Uses:
-      *  @state searchTerm — current text input
-      *  @state activeSearch — applied filter when clicking Search
-      *  @function handleSearchClick — applies searchTerm
-      */}
+      ============================================ */}
       <div className="max-w-md mx-auto mb-8 flex gap-3" data-cy="searchBar">
         <input
           type="text"
@@ -182,21 +201,15 @@ const ecosystem = () => {
            * @description Applies the current search term and triggers filtering.
            */
           onClick={handleSearchClick}
-          className="text-xl px-6 py-2 bg-blue-400 dark:bg-blue-500 text-black dark:text-yellow-100 rounded-lg">
+          className="text-xl px-6 py-2 bg-blue-400 dark:bg-blue-500 text-black dark:text-yellow-100 rounded-lg"
+        >
           Search
         </button>
       </div>
 
       {/* ============================================
         Grid of Items
-       ============================================ */}
-      {/**
-      * @section Grid Display
-      * @description Renders the visible ecosystem items in a responsive grid.
-      * Uses:
-      *  @var visibleData — array of currently displayed items
-      *  @function setSelectedItem — opens modal with clicked item
-      */}
+      ============================================ */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-cy="images">
         {visibleData.map((item, index) => (
           <div
@@ -228,35 +241,29 @@ const ecosystem = () => {
         ))}
       </div>
 
-      {/* ============================================
-        Infinite Scroll Sentinel
-       ============================================ */}
-      {/**
-      * @section Infinite Scroll Trigger
-      * @description A sentinel div observed by an IntersectionObserver.
-      * When scrolled into view, it loads more items.
-      * Uses:
-      *  @ref sentinelRef — DOM reference for observer
-      *  @state visibleCount — how many items are shown
-      *  @var filteredData.length — max items available
-      */}
+      {/* Infinite Scroll Sentinel */}
       <div ref={sentinelRef} className="w-full flex justify-center items-center mt-8">
         {visibleCount < filteredData.length}
       </div>
 
       {/* ============================================
-        Modal
-       ============================================ */}
-      {/**
-      * @section Modal
-      * @description Displays detailed information for the selected item.
-      * Uses:
-      *   @state selectedItem — The item currently open
-      *   @function closeModal — Closes the modal
-      */}
+        Modal + TTS BUTTON
+      ============================================ */}
       {selectedItem && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 relative max-w-lg w-full">
+
+            {/* ★ Small Modal TTS Button */}
+            <button
+              onClick={() =>
+                tts.toggleSpeak(
+                  `${selectedItem.name}. Category: ${selectedItem.category}. ${selectedItem.description}`
+                )
+              }
+              className="absolute top-2 left-2 bg-yellow-400 text-gray-900 dark:bg-yellow-500 dark:text-gray-100 rounded-full p-2 focus:outline-none"
+            >
+              <IoVolumeHigh className="text-xl" />
+            </button>
 
             {/* Close Button */}
             <button
