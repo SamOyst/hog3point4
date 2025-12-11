@@ -3,7 +3,7 @@
  * @authors
  *  Lakshay Bansal (A00467478),
  *  Daniel Johnston (A00450815)
- * ChatGPT
+ *  ChatGPT
  * @description React component for the About page, featuring text-to-speech,
  * dynamic accordion sections, Tailwind styling, and species lists derived from
  * ecosystem data.
