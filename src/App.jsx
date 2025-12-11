@@ -4,6 +4,7 @@
  *  Marko Ostrovitsa (A00448932),
  *  Sam Oystreck (A00478278),
  *  Daniel Johnston (A00450815),
+ *  Piper Barbour (A00473078)
  *  ChatGPT
  * @description Root React component responsible for rendering the full application,
  * handling global dark mode state, and defining all routing between pages.
