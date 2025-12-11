@@ -1,7 +1,8 @@
 /**
  * @file EcosystemData.js
  * @author 
- *   Daniel Johnston (A00450815)
+ *  Daniel Johnston (A00450815)
+ *  ChatGPT
  * @description Provides the dataset used on the ecosystem page, including names, categories,
  * images, and descriptions for all ecosystem items.
  */
