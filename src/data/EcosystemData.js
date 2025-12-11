@@ -427,9 +427,9 @@ const data = [
     description: 'A hardy herb native to northern areas of the Northern Hemisphere, including Europe, Asia, and almost all of Canada. It is a member of the mint family.',
     image: MarshSkullcap
   }, {
-    name: 'A fruticose lichen in the family Parmeliaceae.',
+    name: 'Methuselah\'s Beard Lichen',
     category: 'Fungi',
-    description: 'Placeholder',
+    description: 'A fruticose lichen in the family Parmeliaceae.',
     image: MethuselahBeardLichen
   }, {
     name: 'Mountain Holly',
@@ -497,7 +497,7 @@ const data = [
     description: 'A species of maple native to eastern and central Europe and western Asia. It was introduced to North America in the mid-1700s as a shade tree. It is a member of the family Sapindaceae.',
     image: NorwayMaple
   }, {
-    name: 'Otiorhynchus carinatopunctatus',
+    name: 'Otiorhynchus Carinatopunctatus',
     category: 'Fauna',
     description: 'A species of broad-nosed weevil in the beetle family Curculionidae. It is native to Europe and introduced in North America.',
     image: OtiorhynchusCarinatopunctatus
