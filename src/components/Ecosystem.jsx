@@ -6,7 +6,7 @@
  *  Bahnu Prakash (A00468530),
  *  Daniel Johnston (A00450815)
  *  Ben Anderson (A00473343)
- * ChatGPT
+ *  ChatGPT
  * @description React component that renders the ecosystem page, including search,
  * infinite scrolling, and item detail modals.
  */
