@@ -9,7 +9,7 @@ const cors = require('cors');
 const path = require("path");
 const fs = require('fs');
 const multer = require("multer");
-const siteHost = require("../constants.jsx")
+const siteHost = require("../constants.js")
 
 // ----------------- SETUP -----------------
 //Ensures server will act properly
@@ -146,8 +146,10 @@ server.use("/api/accepted", express.static(path.join(directory, "gallery_uploads
 server.use("/api/pending", express.static(path.join(directory, "gallery_uploads/pending")));
 
 
-//Starts the server - while on SSH access using http://ugdev.cs-smu.ca:3000/api
-server.listen(3000, '0.0.0.0', () => {
-    console.log('Server running on port 3000.');
+//Starts the server - while on SSH access using http://ugdev.cs-smu.ca:3100/api
+server.listen(3100, '0.0.0.0', () => {
+    console.log("Server running on port 3100");
+}).on('error', (err) => {
+    console.error("SERVER LISTEN ERROR:", err);
 });
 // ----------------- FUNCTIONALITY -----------------

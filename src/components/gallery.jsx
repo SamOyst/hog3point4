@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import { serverHost } from '../constants';
 import tts from "../assets/tts";
+import { IoVolumeHigh } from 'react-icons/io5';
 
 const Gallery = () => {
 
@@ -146,18 +147,18 @@ const Gallery = () => {
     <div className="p-8 bg-gray-100 dark:bg-gray-900 min-h-screen">
 
       {/*Head*/}
-      <h1 className="text-4xl font-calibri text-center mb-6 text-gray-900 dark:text-gray-100">
+      <h1 className="text-4xl font-calibri text-center mb-6 text-gray-900 dark:text-yellow-100">
         Enchanting Forest Gallery
 
         {/* Text To Speech Button */}
         <button
           onClick={handleTextToSpeech}
-          className="ml-4 bg-yellow-400 text-gray-900 dark:bg-yellow-500 dark:text-gray-100 rounded-full p-5 focus:outline-none"
+          className="ml-4 bg-yellow-400 text-gray-900 dark:bg-yellow-500 dark:text-yellow-100 rounded-full p-5 focus:outline-none"
         >
           <IoVolumeHigh className="text-3xl" />
         </button>
       </h1>
-      <p className="text-center text-lg text-gray-600 dark:text-gray-300 mb-8">
+      <p className="text-center text-lg text-gray-600 dark:text-yellow-100 mb-8">
         Discover the breathtaking beauty of forests and serene landscapes. Feel free to add your favorite photos to enrich this gallery!
       </p>
 
@@ -165,14 +166,14 @@ const Gallery = () => {
       <div data-cy="dragDropBox"
         {...getRootProps()}
         className={`border-4 border-dashed rounded-xl p-16 mb-8 text-center cursor-pointer transition 
-    ${isDragActive ? "border-blue-500 bg-blue-100" : "border-gray-400 bg-gray-200"} 
+    ${isDragActive ? "border-blue-500 bg-blue-100 dark:bg-blue-100" : "border-gray-400 bg-gray-200 dark:bg-gray-600"} 
     hover:bg-gray-300`}
       >
         <input {...getInputProps()} />
         {isDragActive ? (
           <p className="text-blue-600 font-calibri text-2xl">Drop files here…</p>
         ) : (
-          <p className="text-gray-700 font-calibri text-2xl">Drag & drop images here, or click to upload</p>
+          <p className="text-gray-700 dark:text-yellow-100 font-calibri text-2xl">Drag & drop images here, or click to upload</p>
         )}
       </div>
 

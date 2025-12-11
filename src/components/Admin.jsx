@@ -112,18 +112,18 @@ const Admin = () => {
 
         <div className="p-8 bg-gray-100 dark:bg-gray-900 min-h-screen">
             <header className="text-center text-black py-20 px-4">
-                <h1 className="text-7xl font-calibri text-center mb-6 text-gray-900 dark:text-gray-100">
+                <h1 className="text-7xl font-calibri text-center mb-6 text-gray-900 dark:text-yellow-100">
                     Woodland Conservation Area Admin Page
                 </h1>
             </header>
 
             {/* Pending Grid */}
-            <h2 className="text-4xl font-calibri text-gray-900 dark:text-gray-100 mb-2">
+            <h2 className="text-4xl font-calibri text-gray-900 dark:text-yellow-100 mb-2">
                 Pending
             </h2>
             <div
                 id="pendingGallery"
-                className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-yellow-500/50 min-h-64 p-bottom-16"
+                className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-yellow-500/50 min-h-64 pb-16"
             >
                 {pendingArray.map((filename, i) => (
                     <div
@@ -132,7 +132,7 @@ const Admin = () => {
                     >
                         {/* Image */}
                         <img
-                            src={`http://ugdev.cs-smu.ca:3000/api/pending/${filename}`}
+                            src={`http://ugdev.cs-smu.ca:3100/api/pending/${filename}`}
                             alt={filename}
                             className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                             onClick={() => setSelectedItem(filename)}
@@ -148,7 +148,7 @@ const Admin = () => {
             </div>
 
             {/* Accepted Grid */}
-            <h2 className="text-4xl font-calibri text-gray-900 dark:text-gray-100 mb-2">
+            <h2 className="text-4xl font-calibri text-gray-900 dark:text-yellow-100 mb-2">
                 Accepted
             </h2>
             <div
@@ -162,7 +162,7 @@ const Admin = () => {
                     >
                         {/* Image */}
                         <img
-                            src={`http://ugdev.cs-smu.ca:3000/api/accepted/${filename}`}
+                            src={`http://ugdev.cs-smu.ca:3100/api/accepted/${filename}`}
                             alt={filename}
                             className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                             onClick={() => setSelectedItem(filename)}
